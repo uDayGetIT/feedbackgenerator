@@ -93,6 +93,10 @@
       font-size: 16px;
       margin-top: 20px;
       color: #444;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      background-color: #f5f5f5;
     }
 
     .feedback-text p {
@@ -105,16 +109,16 @@
     <h1>SD Link Generator</h1>
     <input type="text" id="sdNumberInput" placeholder="Enter SD Number" />
     <button onclick="generateLink()">Generate Link</button>
-    <div class="generated-link-container">
-      <input type="text" id="generatedLink" readonly />
-      <button onclick="copyToClipboard()" class="copy-button">Copy</button>
-    </div>
-    <div class="feedback-text">
-      <p>Dear Customer,</p>
-      <p>We are committed to resolving customer issues and providing the best service possible. To help us understand your experience and ensure your satisfaction, please take a moment to share your feedback by clicking on the link below:</p>
+    <div class="feedback-text" id="feedbackText">
+      <p>Dear Sir/Madam,</p>
+      <p>We are committed to resolving your issues and providing the best service possible. To help us understand your experience and ensure your satisfaction, please take a moment to share your feedback by clicking on the link below:</p>
       <p>I'm Satisfied --> View reasons --> Select any one --> Submit Survey</p>
       <p>Your feedback is valuable to us, and we appreciate your time.</p>
       <p>Thank you!</p>
+    </div>
+    <div class="generated-link-container">
+      <input type="text" id="generatedLink" readonly />
+      <button onclick="copyLinkWithText()" class="copy-button">Copy</button>
     </div>
     <div class="credits">
       Made by - <a href="https://teams.microsoft.com/l/chat/0/0?users=uday.katare@ril.com">uday katare</a>
@@ -128,12 +132,14 @@
       document.getElementById("generatedLink").value = link;
     }
 
-    function copyToClipboard() {
+    function copyLinkWithText() {
+      var feedbackText = document.getElementById("feedbackText").innerText;
       var linkField = document.getElementById("generatedLink");
+      linkField.value = feedbackText + "\n" + linkField.value;
       linkField.select();
       linkField.setSelectionRange(0, 99999);
       document.execCommand("copy");
-      alert("Link copied to clipboard!");
+      alert("Text and link copied to clipboard!");
     }
   </script>
 </body>
