@@ -89,18 +89,7 @@
     }
 
     .feedback-text {
-      text-align: center;
-      font-size: 16px;
-      margin-top: 20px;
-      color: #444;
-      padding: 10px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      background-color: #f5f5f5;
-    }
-
-    .feedback-text p {
-      margin: 5px 0;
+      display: none;
     }
   </style>
 </head>
@@ -109,13 +98,6 @@
     <h1>SD Link Generator</h1>
     <input type="text" id="sdNumberInput" placeholder="Enter SD Number" />
     <button onclick="generateLink()">Generate Link</button>
-    <div class="feedback-text" id="feedbackText">
-      <p>Dear Sir/Madam,</p>
-      <p>We are committed to resolving your issues and providing the best service possible. To help us understand your experience and ensure your satisfaction, please take a moment to share your feedback by clicking on the link below:</p>
-      <p>I'm Satisfied --> View reasons --> Select any one --> Submit Survey</p>
-      <p>Your feedback is valuable to us, and we appreciate your time.</p>
-      <p>Thank you!</p>
-    </div>
     <div class="generated-link-container">
       <input type="text" id="generatedLink" readonly />
       <button onclick="copyLinkWithText()" class="copy-button">Copy</button>
@@ -130,16 +112,34 @@
       var sdNumber = document.getElementById("sdNumberInput").value;
       var link = "https://getit6.ril.com/rilitsm/ess.do?ctx=docEngine&file=incidents&query=incident.id%3D%22" + sdNumber + "%22&action=&title=Interaction%20" + sdNumber;
       document.getElementById("generatedLink").value = link;
+      showFeedbackText();
     }
 
     function copyLinkWithText() {
-      var feedbackText = document.getElementById("feedbackText").innerText;
+      var feedbackText = "Dear Sir/Madam,\n\nWe are committed to resolving your issues and providing the best service possible. To help us understand your experience and ensure your satisfaction, please take a moment to share your feedback by clicking on the link below:\n\nI'm Satisfied --> View reasons --> Select any one --> Submit Survey\n\nYour feedback is valuable to us, and we appreciate your time.\n\nThank you!";
       var linkField = document.getElementById("generatedLink");
-      linkField.value = feedbackText + "\n" + linkField.value;
-      linkField.select();
-      linkField.setSelectionRange(0, 99999);
-      document.execCommand("copy");
+      var textWithLink = feedbackText + "\n\n" + linkField.value;
+      copyToClipboard(textWithLink);
       alert("Text and link copied to clipboard!");
+    }
+
+    function showFeedbackText() {
+      var feedbackText = document.querySelector(".feedback-text");
+      feedbackText.style.display = "block";
+    }
+
+    function copyToClipboard(text) {
+      var textArea = document.createElement("textarea");
+      textArea.value = text;
+      textArea.style.position = "fixed";
+      document.body.appendChild(textArea);
+      textArea.select();
+      try {
+        document.execCommand("copy");
+      } catch (err) {
+        console.error("Failed to copy text: ", err);
+      }
+      document.body.removeChild(textArea);
     }
   </script>
 </body>
