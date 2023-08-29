@@ -166,7 +166,7 @@
     }
 
     function copyLinkWithText() {
-      var feedbackText = "Please help with the positive feedback.\n\nI'm Satisfied --> View reasons --> Select any one --> Submit Survey";
+      var feedbackText = "Dear Sir/Madam,\n\nWe are committed to resolving your issues and providing the best service possible. To help us understand your experience and ensure your satisfaction, please take a moment to share your feedback by clicking on the link below:\n\nI'm Satisfied --> View reasons --> Select any one --> Submit Survey\n\nYour feedback is valuable to us, and we appreciate your time.\n\nThank you!";
       var linkField = document.getElementById("generatedLink");
       var textWithLink = feedbackText + "\n\n" + linkField.value;
       copyToClipboard(textWithLink);
