@@ -94,13 +94,17 @@
   </style>
 </head>
 <body>
-  <div class="container">
+ <div class="container">
     <h1>CSAT Link Generator</h1>
     <input type="text" id="sdNumberInput" placeholder="Enter SD Number" />
     <button onclick="generateLink()">Generate Link</button>
     <div class="generated-link-container">
       <input type="text" id="generatedLink" readonly />
-      <button onclick="copyLinkWithText()" class="copy-button">Copy</button>
+      <button onclick="copyLink()" class="copy-button">Copy Link</button>
+      <button onclick="copyLinkWithText()" class="copy-button">Copy Link with Text</button>
+    </div>
+    <div class="counter">
+      Generated Link Count: <span id="counterValue">0</span>
     </div>
     <div class="credits">
       Made by - <a href="https://teams.microsoft.com/l/chat/0/0?users=uday.katare@ril.com">uday katare</a>
@@ -114,6 +118,13 @@
       document.getElementById("generatedLink").value = link;
       showFeedbackText();
     }
+
+     function copyLink() {
+      var linkField = document.getElementById("generatedLink");
+      linkField.select();
+      linkField.setSelectionRange(0, 99999);
+      document.execCommand("copy");
+      alert("Link copied to clipboard!");
 
     function copyLinkWithText() {
       var feedbackText = "Dear Sir/Madam,\n\nWe are committed to resolving your issues and providing the best service possible. To help us understand your experience and ensure your satisfaction, please take a moment to share your feedback by clicking on the link below:\n\nI'm Satisfied --> View reasons --> Select any one --> Submit Survey\n\nYour feedback is valuable to us, and we appreciate your time.\n\nThank you!";
