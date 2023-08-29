@@ -1,45 +1,48 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>CSAT Helper</title>
+  <title>CSAT Link Generator</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 20px;
       background-color: #f5f5f5;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      width: 400px;
+      margin: 20px auto;
+      padding: 20px;
+      background-color: #ffffff;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     }
 
     h1 {
       color: #333;
+      text-align: center;
       margin-bottom: 20px;
-    }
-
-    .container {
-      max-width: 400px;
-      margin: 0 auto;
-      background-color: #fff;
-      padding: 20px;
-      border-radius: 5px;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     }
 
     input {
       width: 100%;
       padding: 10px;
-      margin-bottom: 10px;
+      margin-bottom: 15px;
       border: 1px solid #ccc;
       border-radius: 4px;
       box-sizing: border-box;
     }
 
     button {
-      padding: 10px 20px;
+      width: 100%;
+      padding: 10px 0;
       background-color: #4caf50;
       color: #fff;
       border: none;
       border-radius: 4px;
       cursor: pointer;
+      font-size: 16px;
     }
 
     button:hover {
@@ -49,14 +52,15 @@
     .generated-link-container {
       display: flex;
       align-items: center;
+      margin-top: 15px;
     }
 
     #generatedLink {
       flex-grow: 1;
       padding: 10px;
-      margin-right: 10px;
       border: 1px solid #ccc;
       border-radius: 4px;
+      font-size: 14px;
     }
 
     .copy-button {
@@ -66,11 +70,27 @@
       border: none;
       border-radius: 4px;
       cursor: pointer;
-      margin-right: 3px;
+      font-size: 14px;
+      margin-left: 10px;
     }
 
     .copy-button:hover {
       background-color: #0b7dda;
+    }
+
+    .copied-popup {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 5px 10px;
+      background-color: rgba(0, 0, 0, 0.7);
+      color: #fff;
+      border-radius: 5px;
+      font-size: 14px;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
     }
 
     .credits {
@@ -88,15 +108,11 @@
     .credits a:hover {
       color: #4caf50;
     }
-
-    .feedback-text {
-      display: none;
-    }
   </style>
 </head>
 <body>
- <div class="container">
-    <h1>CSAT Link Generator</h1>
+  <div class="container">
+    <h1>SD Link Generator</h1>
     <input type="text" id="sdNumberInput" placeholder="Enter SD Number" />
     <button onclick="generateLink()">Generate Link</button>
     <div class="generated-link-container">
@@ -104,39 +120,13 @@
       <button onclick="copyLink()" class="copy-button">Copy Link</button>
       <button onclick="copyLinkWithText()" class="copy-button">Copy Link with Text</button>
     </div>
+    <div class="copied-popup" id="copiedPopup">Copied</div>
     <div class="credits">
       Made by - <a href="https://teams.microsoft.com/l/chat/0/0?users=uday.katare@ril.com">uday katare</a>
     </div>
   </div>
 
   <script>
-    function generateLink() {
-      var sdNumber = document.getElementById("sdNumberInput").value;
-      var link = "https://getit6.ril.com/rilitsm/ess.do?ctx=docEngine&file=incidents&query=incident.id%3D%22" + sdNumber + "%22&action=&title=Interaction%20" + sdNumber;
-      document.getElementById("generatedLink").value = link;
-      showFeedbackText();
-    }
-
-     function copyLink() {
-      var linkField = document.getElementById("generatedLink");
-      linkField.select();
-      linkField.setSelectionRange(0, 99999);
-      document.execCommand("copy");
-      alert("Link copied to clipboard!");
-
-    function copyLinkWithText() {
-      var feedbackText = "Dear Sir/Madam,\n\nWe are committed to resolving your issues and providing the best service possible. To help us understand your experience and ensure your satisfaction, please take a moment to share your feedback by clicking on the link below:\n\nI'm Satisfied --> View reasons --> Select any one --> Submit Survey\n\nYour feedback is valuable to us, and we appreciate your time.\n\nThank you!";
-      var linkField = document.getElementById("generatedLink");
-      var textWithLink = feedbackText + "\n\n" + linkField.value;
-      copyToClipboard(textWithLink);
-      alert("Text and link copied to clipboard!");
-    }
-
-    function showFeedbackText() {
-      var feedbackText = document.querySelector(".feedback-text");
-      feedbackText.style.display = "block";
-    }
-
     function copyToClipboard(text) {
       var textArea = document.createElement("textarea");
       textArea.value = text;
@@ -149,6 +139,38 @@
         console.error("Failed to copy text: ", err);
       }
       document.body.removeChild(textArea);
+    }
+
+    function showCopiedPopup() {
+      var copiedPopup = document.getElementById("copiedPopup");
+      copiedPopup.style.opacity = 1;
+      copiedPopup.style.visibility = "visible";
+      setTimeout(function () {
+        copiedPopup.style.opacity = 0;
+        copiedPopup.style.visibility = "hidden";
+      }, 1000);
+    }
+
+    function generateLink() {
+      var sdNumber = document.getElementById("sdNumberInput").value;
+      var link = "https://getit6.ril.com/rilitsm/ess.do?ctx=docEngine&file=incidents&query=incident.id%3D%22" + sdNumber + "%22&action=&title=Interaction%20" + sdNumber;
+      document.getElementById("generatedLink").value = link;
+    }
+
+    function copyLink() {
+      var linkField = document.getElementById("generatedLink");
+      linkField.select();
+      linkField.setSelectionRange(0, 99999);
+      document.execCommand("copy");
+      showCopiedPopup();
+    }
+
+    function copyLinkWithText() {
+      var feedbackText = "Please help with the positive feedback.\n\nI'm Satisfied --> View reasons --> Select any one --> Submit Survey";
+      var linkField = document.getElementById("generatedLink");
+      var textWithLink = feedbackText + "\n\n" + linkField.value;
+      copyToClipboard(textWithLink);
+      showCopiedPopup();
     }
   </script>
 </body>
