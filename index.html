@@ -3,11 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Eating Bananas Yield Farming</title>
+    <title>Banana Jungle Farm</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- GSAP Animation Library -->
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.9.2/dist/gsap.min.js"></script>
+
     <style>
         body {
-            background-color: #f9f9f9;
-            font-family: 'Roboto', sans-serif;
+            background-color: #c4df9b; /* Jungle Green */
+            font-family: 'Comic Sans MS', cursive, sans-serif;
             margin: 0;
             padding: 0;
             display: flex;
@@ -19,8 +26,9 @@
 
         header {
             text-align: center;
-            background-color: #ffd700;
+            background-color: #ffe600; /* Banana Yellow */
             padding: 1em;
+            border-bottom: 2px solid #4b331b; /* Dark Brown */
         }
 
         main {
@@ -33,7 +41,7 @@
         section {
             margin-bottom: 2em;
             padding: 1em;
-            background-color: #ffffff;
+            background-color: #fff6d9; /* Light Banana Yellow */
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             width: 80%;
@@ -54,8 +62,8 @@
         }
 
         button {
-            background-color: #ffd700;
-            color: #000000;
+            background-color: #ffe600; /* Banana Yellow */
+            color: #4b331b; /* Dark Brown */
             border: none;
             padding: 0.5em 1em;
             font-size: 1em;
@@ -66,87 +74,120 @@
         }
 
         button:hover {
-            background-color: #ffc107;
+            background-color: #ffd000; /* Slightly darker Banana Yellow */
             transform: scale(1.05);
         }
 
         footer {
             text-align: center;
             margin-top: 2em;
+            color: #4b331b; /* Dark Brown */
         }
     </style>
 </head>
 <body>
 
     <header>
-        <h1>Eating Bananas Yield Farming</h1>
+        <h1>Banana Jungle Farm</h1>
     </header>
 
     <main>
         <section>
-            <h2>Login with MetaMask</h2>
-            <button onclick="connectMetaMask()">Connect MetaMask</button>
+            <h2>Swing into the Jungle Adventure!</h2>
+            <p>Connect your MonkeyWallet to start harvesting the tastiest bananas in the jungle.</p>
+            <button id="connectBtn">Connect MonkeyWallet</button>
         </section>
 
         <section>
-            <h2>Deposit ETH and Start Eating Bananas</h2>
+            <h2>Climb the Banana Trees and Deposit ETH</h2>
             <label for="ethAmount">Enter ETH amount:</label>
             <input type="number" id="ethAmount" step="0.01" min="0" placeholder="0.00">
-            <button onclick="deposit()">Deposit</button>
+            <button id="depositBtn">Climb and Deposit</button>
         </section>
 
         <section>
-            <h2>Eat Bananas and Enjoy Rewards</h2>
-            <p>Earn 10% yield in Bananas on your locked ETH every week!</p>
-            <p>Your current rewards: 🍌 0.00 Bananas</p>
+            <h2>Eat Bananas and Swing on Vines</h2>
+            <p>Earn 10% banana yield on your locked ETH every week! Swing higher, earn more!</p>
+            <p>Your banana stash: 🍌 0.00 Bananas</p>
             <!-- Display more relevant information as needed -->
         </section>
 
         <section>
-            <h2>Withdraw and Claim Banana Rewards</h2>
-            <button onclick="withdraw()">Withdraw</button>
-            <button onclick="claimRewards()">Claim Banana Rewards</button>
+            <h2>Descend and Claim Banana Rewards</h2>
+            <button id="withdrawBtn">Descend and Withdraw</button>
+            <button id="claimBtn">Claim Banana Rewards</button>
         </section>
     </main>
 
     <footer>
-        <p>Total Value Bananas Locked: 🍌 XYZ Bananas</p>
+        <p>Total Value of Bananas in Jungle: 🍌 XYZ Bananas</p>
     </footer>
 
     <script>
-        let userAddress;
+        let monkeyAddress;
 
-        async function connectMetaMask() {
+        // GSAP Animations
+        gsap.from("header", { duration: 1, opacity: 0, y: -20, ease: "power2.out" });
+        gsap.from("section", { duration: 1, opacity: 0, y: 20, ease: "power2.out", stagger: 0.2 });
+
+        // Connect MonkeyWallet Animation
+        document.getElementById("connectBtn").addEventListener("click", () => {
+            gsap.to("#connectBtn", { duration: 0.5, scale: 0.9, yoyo: true, repeat: 1, ease: "power2.out" });
+            connectMonkeyWallet();
+        });
+
+        // Deposit Animation
+        document.getElementById("depositBtn").addEventListener("click", () => {
+            gsap.to("#depositBtn", { duration: 0.5, scale: 0.9, yoyo: true, repeat: 1, ease: "power2.out" });
+            deposit();
+        });
+
+        // Withdraw Animation
+        document.getElementById("withdrawBtn").addEventListener("click", () => {
+            gsap.to("#withdrawBtn", { duration: 0.5, scale: 0.9, yoyo: true, repeat: 1, ease: "power2.out" });
+            withdraw();
+        });
+
+        // Claim Rewards Animation
+        document.getElementById("claimBtn").addEventListener("click", () => {
+            gsap.to("#claimBtn", { duration: 0.5, scale: 0.9, yoyo: true, repeat: 1, ease: "power2.out" });
+            claimRewards();
+        });
+
+        async function connectMonkeyWallet() {
             if (window.ethereum) {
                 try {
                     const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-                    userAddress = accounts[0];
-                    console.log("MetaMask connected:", userAddress);
-                    // Add logic to display user-specific information or interact with the smart contract
+                    monkeyAddress = accounts[0];
+                    console.log("MonkeyWallet connected:", monkeyAddress);
+                    // Add logic to display user-specific information or interact with the jungle contract
                 } catch (error) {
-                    console.error("Error connecting MetaMask:", error);
+                    console.error("Error connecting MonkeyWallet:", error);
                 }
             } else {
-                console.error("MetaMask not found. Please install MetaMask.");
+                console.error("MonkeyWallet not found. Please install MonkeyWallet.");
             }
         }
 
         function deposit() {
             const ethAmount = document.getElementById("ethAmount").value;
-            // Add logic to interact with the smart contract and handle the deposit
-            console.log(`Depositing ${ethAmount} ETH for ${userAddress}...`);
+            // Add logic to interact with the jungle contract and handle the deposit
+            console.log(`Climbing and depositing ${ethAmount} ETH for ${monkeyAddress}...`);
         }
 
         function withdraw() {
-            // Add logic to interact with the smart contract and handle the withdrawal
-            console.log(`Withdrawing funds for ${userAddress}...`);
+            // Add logic to interact with the jungle contract and handle the descent and withdrawal
+            console.log(`Descending and withdrawing for ${monkeyAddress}...`);
         }
 
         function claimRewards() {
-            // Add logic to interact with the smart contract and handle the rewards claiming
-            console.log(`Claiming rewards for ${userAddress}...`);
+            // Add logic to interact with the jungle contract and handle the rewards claiming
+            console.log(`Claiming banana rewards for ${monkeyAddress}...`);
         }
     </script>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 </html>
