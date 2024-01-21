@@ -12,36 +12,30 @@
             line-height: 1.6;
             padding: 0;
             margin: 0;
-        }
-
-        header {
-            text-align: center;
-            background-color: #ffd700;
-            padding: 1em;
-        }
-
-        main {
             display: flex;
             flex-direction: column;
             align-items: center;
-            margin: 2em;
+            justify-content: center;
+            height: 100vh;
         }
 
-        section {
-            margin-bottom: 2em;
-            padding: 1em;
-            background-color: #ffffff;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            width: 80%;
-            max-width: 400px;
+        h1 {
             text-align: center;
-            animation: fadeIn 1s ease;
+            font-size: 2em;
+            margin-bottom: 1em;
+            animation: bounce 1.5s infinite;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-20px);
+            }
+            60% {
+                transform: translateY(-10px);
+            }
         }
 
         button {
@@ -64,52 +58,23 @@
         footer {
             text-align: center;
             margin-top: 2em;
-        }
-
-        .cosmic-animation {
-            animation: cosmic-journey 5s linear infinite;
-            font-size: 1.5em;
-        }
-
-        @keyframes cosmic-journey {
-            0% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-            100% { transform: translateY(0); }
+            font-size: 1.2em;
         }
     </style>
 </head>
 <body>
 
-    <header>
-        <h1 class="cosmic-animation">Eating Bananas Yield Farming</h1>
-    </header>
+    <h1>Eating Bananas Yield Farming</h1>
 
-    <main>
-        <section>
-            <h2>Welcome to the Cosmic Banana Farm!</h2>
-            <p>Embark on a cosmic adventure with our intergalactic monkeys as they cultivate the most delectable bananas in the universe. Join us in the quest for the perfect banana yield!</p>
-            <button onclick="connectMetaMask()">Start Your Banana Odyssey</button>
-        </section>
-
-        <section>
-            <h2>Yield Farming with a Cosmic Twist 🍌</h2>
-            <p>Commit your ETH to the Banana Vault and watch it transform into delicious bananas over time! For every 1 ETH you commit, our space monkeys will reward you with 10% more bananas every week. It's a banana bonanza!</p>
-        </section>
-
-        <section>
-            <h2>Why Commit to the Banana Odyssey?</h2>
-            <p>Our cosmic bananas aren't just any bananas. They are the fruit of the universe, infused with stardust and cosmic energy. By committing to the Banana Odyssey, you're part of an interstellar journey to cultivate the most sought-after bananas in the galaxy.</p>
-            <p>Plus, rumor has it that the more bananas you collect, the closer you get to unlocking the secrets of the legendary Banana Nebula! 🌌🍌</p>
-        </section>
-    </main>
+    <button onclick="startBananaOdyssey()">Start Your Banana Odyssey</button>
 
     <footer>
-        <p>Total Value Bananas Locked: 🍌 XYZ Bananas</p>
+        Total Value Bananas Locked: 🍌 XYZ Bananas
     </footer>
 
     <script>
-        function connectMetaMask() {
-            alert("MetaMask connection in progress..."); // Add actual MetaMask connection logic here
+        function startBananaOdyssey() {
+            alert("Welcome to the Banana Odyssey! MetaMask connection and yield farming in progress..."); // Add actual MetaMask connection and yield farming logic here
         }
     </script>
 
