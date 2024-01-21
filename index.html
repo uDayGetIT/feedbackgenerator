@@ -6,8 +6,12 @@
     <title>Eating Bananas Yield Farming</title>
     <style>
         body {
+            font-family: 'Roboto', sans-serif;
             background-color: #f9f9f9;
-            font-family: 'Comic Sans MS', cursive, sans-serif;
+            color: #333333;
+            line-height: 1.6;
+            padding: 0;
+            margin: 0;
         }
 
         header {
@@ -63,28 +67,24 @@
 
     <main>
         <section>
-            <h2>Login with MetaMask</h2>
-            <button onclick="connectMetaMask()">Connect MetaMask</button>
+            <h2>Welcome to the Cosmic Banana Farm!</h2>
+            <p>Embark on a cosmic adventure with our intergalactic monkeys as they cultivate the most delectable bananas in the universe. Join us in the quest for the perfect banana yield!</p>
         </section>
 
         <section>
-            <h2>Deposit ETH and Start Eating Bananas</h2>
-            <label for="ethAmount">Enter ETH amount:</label>
-            <input type="number" id="ethAmount" step="0.01" min="0" placeholder="0.00">
-            <button onclick="deposit()">Deposit</button>
+            <h2>The Banana Odyssey Begins</h2>
+            <p>Picture this: a vast cosmic jungle where mischievous space monkeys cultivate the rarest, most succulent bananas. Your journey starts by connecting your MetaMask wallet to unlock the secrets of the Banana Odyssey.</p>
         </section>
 
         <section>
-            <h2>Eat Bananas and Enjoy Rewards</h2>
-            <p>Earn 10% yield in Bananas on your locked ETH every week!</p>
-            <p>Your current rewards: 🍌 0.00 Bananas</p>
-            <!-- Display more relevant information as needed -->
+            <h2>Yield Farming with a Cosmic Twist</h2>
+            <p>Commit your ETH to the Banana Vault and watch it transform into delicious bananas over time! For every 1 ETH you commit, our space monkeys will reward you with 10% more bananas every week. It's a banana bonanza!</p>
         </section>
 
         <section>
-            <h2>Withdraw and Claim Banana Rewards</h2>
-            <button onclick="withdraw()">Withdraw</button>
-            <button onclick="claimRewards()">Claim Banana Rewards</button>
+            <h2>Why Commit to the Banana Odyssey?</h2>
+            <p>Our cosmic bananas aren't just any bananas. They are the fruit of the universe, infused with stardust and cosmic energy. By committing to the Banana Odyssey, you're not just farming bananas; you're part of an interstellar journey to cultivate the most sought-after bananas in the galaxy.</p>
+            <p>Plus, rumor has it that the more bananas you collect, the closer you get to unlocking the secrets of the legendary Banana Nebula!</p>
         </section>
     </main>
 
@@ -93,38 +93,7 @@
     </footer>
 
     <script>
-        let userAddress;
-
-        async function connectMetaMask() {
-            if (window.ethereum) {
-                try {
-                    const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-                    userAddress = accounts[0];
-                    console.log("MetaMask connected:", userAddress);
-                    // Add logic to display user-specific information or interact with the smart contract
-                } catch (error) {
-                    console.error("Error connecting MetaMask:", error);
-                }
-            } else {
-                console.error("MetaMask not found. Please install MetaMask.");
-            }
-        }
-
-        function deposit() {
-            const ethAmount = document.getElementById("ethAmount").value;
-            // Add logic to interact with the smart contract and handle the deposit
-            console.log(`Depositing ${ethAmount} ETH for ${userAddress}...`);
-        }
-
-        function withdraw() {
-            // Add logic to interact with the smart contract and handle the withdrawal
-            console.log(`Withdrawing funds for ${userAddress}...`);
-        }
-
-        function claimRewards() {
-            // Add logic to interact with the smart contract and handle the rewards claiming
-            console.log(`Claiming rewards for ${userAddress}...`);
-        }
+        // Your JavaScript logic here
     </script>
 
 </body>
