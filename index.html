@@ -36,6 +36,12 @@
             width: 80%;
             max-width: 400px;
             text-align: center;
+            animation: fadeIn 1s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
 
         button {
@@ -47,23 +53,35 @@
             margin-top: 1em;
             cursor: pointer;
             border-radius: 4px;
-            transition: background-color 0.3s ease;
+            transition: background-color 0.3s ease, transform 0.5s ease;
         }
 
         button:hover {
             background-color: #ffc107;
+            transform: scale(1.05);
         }
 
         footer {
             text-align: center;
             margin-top: 2em;
         }
+
+        .cosmic-animation {
+            animation: cosmic-journey 5s linear infinite;
+            font-size: 1.5em;
+        }
+
+        @keyframes cosmic-journey {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0); }
+        }
     </style>
 </head>
 <body>
 
     <header>
-        <h1>Eating Bananas Yield Farming</h1>
+        <h1 class="cosmic-animation">Eating Bananas Yield Farming</h1>
     </header>
 
     <main>
