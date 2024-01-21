@@ -32,6 +32,16 @@
             background-color: #ffe600; /* Banana Yellow */
             padding: 1em;
             border-bottom: 2px solid #4b331b; /* Dark Brown */
+            position: relative;
+        }
+
+        header svg {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 50px;
+            height: 50px;
         }
 
         main {
@@ -51,6 +61,7 @@
             max-width: 400px;
             text-align: center;
             animation: fadeInUp 1s ease;
+            position: relative;
         }
 
         @keyframes fadeInUp {
@@ -91,6 +102,21 @@
 <body>
 
     <header>
+        <!-- Banana SVG -->
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#4b331b">
+            <path d="M12 2C6.5 2 2 6.5 2 12c0 3.6 1.6 7.1 4.4 9.4.2.2.5.3.8.3h11.6c.3 0 .6-.1.8-.3C20.4 19.1 22 15.6 22 12c0-5.5-4.5-10-10-10zm2 16h-4v-1h4v1zm-4-3V9h4v6h-4z"/>
+        </svg>
+
+        <!-- Monkey SVG -->
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#4b331b">
+            <path d="M12 2C6.5 2 2 6.5 2 12c0 3.6 1.6 7.1 4.4 9.4.2.2.5.3.8.3h11.6c.3 0 .6-.1.8-.3C20.4 19.1 22 15.6 22 12c0-5.5-4.5-10-10-10zm2 16h-4v-1h4v1zm-4-3V9h4v6h-4z"/>
+        </svg>
+
+        <!-- Tree SVG -->
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#4b331b">
+            <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm1 18c0 1.1-.9 2-2 2s-2-.9-2-2h4zM15 6c0 1.1-.9 2-2 2s-2-.9-2-2H6c0 1.1-.9 2-2 2s-2-.9-2-2h2c0 2.2 1.8 4 4 4s4-1.8 4-4H7c0-1.1-.9-2-2-2H3c-1.1 0-2-.9-2-2s.9-2 2-2h1c0-2.2 1.8-4 4-4s4 1.8 4 4h1c1.1 0 2 .9 2 2h3c1.1 0 2 .9 2 2z"/>
+        </svg>
+
         <h1>Banana Jungle Farm</h1>
     </header>
 
@@ -101,25 +127,8 @@
             <button id="connectBtn">Connect MonkeyWallet</button>
         </section>
 
-        <section>
-            <h2>Climb the Banana Trees and Deposit ETH</h2>
-            <label for="ethAmount">Enter ETH amount:</label>
-            <input type="number" id="ethAmount" step="0.01" min="0" placeholder="0.00">
-            <button id="depositBtn">Climb and Deposit</button>
-        </section>
+        <!-- ... rest of the HTML ... -->
 
-        <section>
-            <h2>Eat Bananas and Swing on Vines</h2>
-            <p>Earn 10% banana yield on your locked ETH every week! Swing higher, earn more!</p>
-            <p>Your banana stash: 🍌 0.00 Bananas</p>
-            <!-- Display more relevant information as needed -->
-        </section>
-
-        <section>
-            <h2>Descend and Claim Banana Rewards</h2>
-            <button id="withdrawBtn">Descend and Withdraw</button>
-            <button id="claimBtn">Claim Banana Rewards</button>
-        </section>
     </main>
 
     <footer>
@@ -127,66 +136,7 @@
     </footer>
 
     <script>
-        let monkeyAddress;
-
-        // GSAP Animations
-        gsap.from("header", { duration: 1, opacity: 0, y: -20, ease: "power2.out" });
-        gsap.from("section", { duration: 1, opacity: 0, y: 20, ease: "power2.out", stagger: 0.2 });
-
-        // Connect MonkeyWallet Animation
-        document.getElementById("connectBtn").addEventListener("click", () => {
-            gsap.to("#connectBtn", { duration: 0.5, scale: 0.9, yoyo: true, repeat: 1, ease: "power2.out" });
-            connectMonkeyWallet();
-        });
-
-        // Deposit Animation
-        document.getElementById("depositBtn").addEventListener("click", () => {
-            gsap.to("#depositBtn", { duration: 0.5, scale: 0.9, yoyo: true, repeat: 1, ease: "power2.out" });
-            deposit();
-        });
-
-        // Withdraw Animation
-        document.getElementById("withdrawBtn").addEventListener("click", () => {
-            gsap.to("#withdrawBtn", { duration: 0.5, scale: 0.9, yoyo: true, repeat: 1, ease: "power2.out" });
-            withdraw();
-        });
-
-        // Claim Rewards Animation
-        document.getElementById("claimBtn").addEventListener("click", () => {
-            gsap.to("#claimBtn", { duration: 0.5, scale: 0.9, yoyo: true, repeat: 1, ease: "power2.out" });
-            claimRewards();
-        });
-
-        async function connectMonkeyWallet() {
-            if (window.ethereum) {
-                try {
-                    const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-                    monkeyAddress = accounts[0];
-                    console.log("MonkeyWallet connected:", monkeyAddress);
-                    // Add logic to display user-specific information or interact with the jungle contract
-                } catch (error) {
-                    console.error("Error connecting MonkeyWallet:", error);
-                }
-            } else {
-                console.error("MonkeyWallet not found. Please install MonkeyWallet.");
-            }
-        }
-
-        function deposit() {
-            const ethAmount = document.getElementById("ethAmount").value;
-            // Add logic to interact with the jungle contract and handle the deposit
-            console.log(`Climbing and depositing ${ethAmount} ETH for ${monkeyAddress}...`);
-        }
-
-        function withdraw() {
-            // Add logic to interact with the jungle contract and handle the descent and withdrawal
-            console.log(`Descending and withdrawing for ${monkeyAddress}...`);
-        }
-
-        function claimRewards() {
-            // Add logic to interact with the jungle contract and handle the rewards claiming
-            console.log(`Claiming banana rewards for ${monkeyAddress}...`);
-        }
+        // The rest of your JavaScript code
     </script>
 
     <!-- Bootstrap JS -->
