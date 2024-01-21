@@ -1,44 +1,62 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>We're No Longer in Service</title>
-    <style>
-        body {
-            background-color: #F5F5F5;
-            text-align: center;
-            font-family: Arial, sans-serif;
-        }
-
-        .container {
-            margin: 10% auto;
-            padding: 20px;
-            background-color: #FFF;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-        }
-
-        h1 {
-            font-size: 36px;
-            color: #FF5733;
-        }
-
-        p {
-            font-size: 24px;
-            color: #333;
-        }
-
-        .funny-gif {
-            max-width: 100%;
-        }
-    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arbitrum Yield Farming</title>
 </head>
 <body>
-    <div class="container">
-        <h1>We're No Longer in Service</h1>
-        <p>Sorry for your inconvenience, but we are no longer in service.</p>
-        <p>Thank you for your support!</p>
-        <img src="https://media.tenor.com/58K-LXuRgrYAAAAC/amrish-puri-comedy.gif" class="funny-gif" alt="Funny GIF">
-    </div>
+
+    <header>
+        <h1>Welcome to Arbitrum Yield Farming</h1>
+    </header>
+
+    <main>
+        <section>
+            <h2>Login with MetaMask</h2>
+            <button onclick="connectMetaMask()">Connect MetaMask</button>
+        </section>
+
+        <section>
+            <h2>Deposit ETH and Start Yield Farming</h2>
+            <label for="ethAmount">Enter ETH amount:</label>
+            <input type="number" id="ethAmount" step="0.01" min="0" placeholder="0.00">
+            <button onclick="deposit()">Deposit</button>
+        </section>
+
+        <section>
+            <h2>Yield and Rewards</h2>
+            <p>Earn 10% yield on your locked ETH every week!</p>
+            <p>Your current rewards: $0.00</p>
+            <!-- Display more relevant information as needed -->
+        </section>
+    </main>
+
+    <footer>
+        <p>Total Value Locked: $XYZ</p>
+    </footer>
+
+    <script>
+        async function connectMetaMask() {
+            if (window.ethereum) {
+                try {
+                    await window.ethereum.enable();
+                    console.log("MetaMask connected!");
+                    // Add logic to interact with the smart contract or perform other actions
+                } catch (error) {
+                    console.error("Error connecting MetaMask:", error);
+                }
+            } else {
+                console.error("MetaMask not found. Please install MetaMask.");
+            }
+        }
+
+        function deposit() {
+            const ethAmount = document.getElementById("ethAmount").value;
+            // Add logic to interact with the smart contract and handle the deposit
+            console.log(`Depositing ${ethAmount} ETH...`);
+        }
+    </script>
+
 </body>
 </html>
-
