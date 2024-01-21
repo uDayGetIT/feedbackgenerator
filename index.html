@@ -3,107 +3,58 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Eating Bananas Yield Farming</title>
-    <style>
-        body {
-            font-family: 'Roboto', sans-serif;
-            background-color: #f9f9f9;
-            color: #333333;
-            line-height: 1.6;
-            padding: 0;
-            margin: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-        }
-
-        h1 {
-            text-align: center;
-            font-size: 2em;
-            margin-bottom: 1em;
-            animation: bounce 1.5s infinite;
-        }
-
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% {
-                transform: translateY(0);
-            }
-            40% {
-                transform: translateY(-20px);
-            }
-            60% {
-                transform: translateY(-10px);
-            }
-        }
-
-        form {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        label {
-            font-size: 1.2em;
-            margin-top: 1em;
-        }
-
-        input {
-            padding: 0.5em;
-            margin-top: 0.5em;
-            font-size: 1em;
-        }
-
-        button {
-            background-color: #ffd700;
-            color: #000000;
-            border: none;
-            padding: 0.5em 1em;
-            font-size: 1em;
-            margin-top: 1em;
-            cursor: pointer;
-            border-radius: 4px;
-            transition: background-color 0.3s ease, transform 0.5s ease;
-        }
-
-        button:hover {
-            background-color: #ffc107;
-            transform: scale(1.05);
-        }
-
-        footer {
-            text-align: center;
-            margin-top: 2em;
-            font-size: 1.2em;
-        }
-    </style>
+    <title>Arbitrum Yield Farming</title>
 </head>
 <body>
 
-    <h1>Eating Bananas Yield Farming</h1>
+    <header>
+        <h1>Welcome to Arbitrum Yield Farming</h1>
+    </header>
 
-    <form onsubmit="calculateYield(event)">
-        <label for="ethAmount">Enter ETH amount to lock:</label>
-        <input type="number" id="ethAmount" step="0.01" min="0" placeholder="0.00" required>
-        <button type="submit">Start Your Banana Odyssey</button>
-    </form>
+    <main>
+        <section>
+            <h2>Login with MetaMask</h2>
+            <button onclick="connectMetaMask()">Connect MetaMask</button>
+        </section>
 
-    <div id="yieldResult" style="display: none;">
-        <p>Your weekly banana yield: 🍌 <span id="weeklyYield">0.00</span> Bananas</p>
-    </div>
+        <section>
+            <h2>Deposit ETH and Start Yield Farming</h2>
+            <label for="ethAmount">Enter ETH amount:</label>
+            <input type="number" id="ethAmount" step="0.01" min="0" placeholder="0.00">
+            <button onclick="deposit()">Deposit</button>
+        </section>
+
+        <section>
+            <h2>Yield and Rewards</h2>
+            <p>Earn 10% yield on your locked ETH every week!</p>
+            <p>Your current rewards: $0.00</p>
+            <!-- Display more relevant information as needed -->
+        </section>
+    </main>
 
     <footer>
-        Total Value Bananas Locked: 🍌 XYZ Bananas
+        <p>Total Value Locked: $XYZ</p>
     </footer>
 
     <script>
-        function calculateYield(event) {
-            event.preventDefault();
-            const ethAmount = parseFloat(document.getElementById("ethAmount").value);
-            const weeklyYield = ethAmount * 0.10; // 10% yield
-            document.getElementById("weeklyYield").innerText = weeklyYield.toFixed(2);
-            document.getElementById("yieldResult").style.display = "block";
+        async function connectMetaMask() {
+            if (window.ethereum) {
+                try {
+                    await window.ethereum.enable();
+                    console.log("MetaMask connected!");
+                    // Add logic to interact with the smart contract or perform other actions
+                } catch (error) {
+                    console.error("Error connecting MetaMask:", error);
+                }
+            } else {
+                console.error("MetaMask not found. Please install MetaMask.");
+            }
+        }
+
+        function deposit() {
+            const ethAmount = document.getElementById("ethAmount").value;
+            // Add logic to interact with the smart contract and handle the deposit
+            console.log(`Depositing ${ethAmount} ETH...`);
         }
     </script>
 
