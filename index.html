@@ -38,6 +38,23 @@
             }
         }
 
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        label {
+            font-size: 1.2em;
+            margin-top: 1em;
+        }
+
+        input {
+            padding: 0.5em;
+            margin-top: 0.5em;
+            font-size: 1em;
+        }
+
         button {
             background-color: #ffd700;
             color: #000000;
@@ -66,15 +83,27 @@
 
     <h1>Eating Bananas Yield Farming</h1>
 
-    <button onclick="startBananaOdyssey()">Start Your Banana Odyssey</button>
+    <form onsubmit="calculateYield(event)">
+        <label for="ethAmount">Enter ETH amount to lock:</label>
+        <input type="number" id="ethAmount" step="0.01" min="0" placeholder="0.00" required>
+        <button type="submit">Start Your Banana Odyssey</button>
+    </form>
+
+    <div id="yieldResult" style="display: none;">
+        <p>Your weekly banana yield: 🍌 <span id="weeklyYield">0.00</span> Bananas</p>
+    </div>
 
     <footer>
         Total Value Bananas Locked: 🍌 XYZ Bananas
     </footer>
 
     <script>
-        function startBananaOdyssey() {
-            alert("Welcome to the Banana Odyssey! MetaMask connection and yield farming in progress..."); // Add actual MetaMask connection and yield farming logic here
+        function calculateYield(event) {
+            event.preventDefault();
+            const ethAmount = parseFloat(document.getElementById("ethAmount").value);
+            const weeklyYield = ethAmount * 0.10; // 10% yield
+            document.getElementById("weeklyYield").innerText = weeklyYield.toFixed(2);
+            document.getElementById("yieldResult").style.display = "block";
         }
     </script>
 
