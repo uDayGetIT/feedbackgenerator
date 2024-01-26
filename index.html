@@ -3,194 +3,94 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Banana Jungle Farm</title>
-
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap" rel="stylesheet">
-
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- GSAP Animation Library -->
-    <script src="https://cdn.jsdelivr.net/npm/gsap@3.9.2/dist/gsap.min.js"></script>
-
-    <style>
-        body {
-            background-color: #c4df9b; /* Jungle Green */
-            font-family: 'Fredoka One', cursive;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-        }
-
-        header {
-            text-align: center;
-            background-color: #ffe600; /* Banana Yellow */
-            padding: 1em;
-            border-bottom: 2px solid #4b331b; /* Dark Brown */
-        }
-
-        main {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin: 2em;
-        }
-
-        section {
-            margin-bottom: 2em;
-            padding: 1em;
-            background-color: #fff6d9; /* Light Banana Yellow */
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            width: 80%;
-            max-width: 400px;
-            text-align: center;
-            animation: fadeInUp 1s ease;
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        button {
-            background-color: #ffe600; /* Banana Yellow */
-            color: #4b331b; /* Dark Brown */
-            border: none;
-            padding: 0.5em 1em;
-            font-size: 1em;
-            margin-top: 1em;
-            cursor: pointer;
-            border-radius: 4px;
-            transition: background-color 0.3s ease, transform 0.5s ease;
-        }
-
-        button:hover {
-            background-color: #ffd000; /* Slightly darker Banana Yellow */
-            transform: scale(1.05);
-        }
-
-        footer {
-            text-align: center;
-            margin-top: 2em;
-            color: #4b331b; /* Dark Brown */
-        }
-    </style>
+    <title>Mining Website</title>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/web3@1.5.3/dist/web3.min.js"></script>
 </head>
 <body>
+    <h1>Mining Website</h1>
 
-    <header>
-        <h1>Banana Jungle Farm</h1>
-    </header>
+    <div>
+        <label for="amount">Lock Amount (ETH): </label>
+        <input type="number" id="amount" step="0.01" placeholder="Enter amount">
+        <button onclick="lockTokens()">Lock Tokens</button>
+    </div>
 
-    <main>
-        <section>
-            <h2>Swing into the Jungle Adventure!</h2>
-            <p>Connect your MonkeyWallet to start harvesting the tastiest bananas in the jungle.</p>
-            <button id="connectBtn">Connect MonkeyWallet</button>
-        </section>
+    <div>
+        <button onclick="unlockTokens()">Unlock Tokens</button>
+    </div>
 
-        <section>
-            <h2>Climb the Banana Trees and Deposit ETH</h2>
-            <label for="ethAmount">Enter ETH amount:</label>
-            <input type="number" id="ethAmount" step="0.01" min="0" placeholder="0.00">
-            <button id="depositBtn">Climb and Deposit</button>
-        </section>
-
-        <section>
-            <h2>Eat Bananas and Swing on Vines</h2>
-            <p>Earn 10% banana yield on your locked ETH every week! Swing higher, earn more!</p>
-            <p>Your banana stash: 🍌 0.00 Bananas</p>
-            <!-- Display more relevant information as needed -->
-        </section>
-
-        <section>
-            <h2>Descend and Claim Banana Rewards</h2>
-            <button id="withdrawBtn">Descend and Withdraw</button>
-            <button id="claimBtn">Claim Banana Rewards</button>
-        </section>
-    </main>
-
-    <footer>
-        <p>Total Value of Bananas in Jungle: 🍌 XYZ Bananas</p>
-    </footer>
+    <div id="status"></div>
 
     <script>
-        let monkeyAddress;
+        // Replace with your smart contract address and ABI
+        const contractAddress = 'YOUR_CONTRACT_ADDRESS';
+        const contractABI = [
+            // ... (insert your contract ABI here)
+        ];
 
-        // GSAP Animations
-        gsap.from("header", { duration: 1, opacity: 0, y: -20, ease: "power2.out" });
-        gsap.from("section", { duration: 1, opacity: 0, y: 20, ease: "power2.out", stagger: 0.2 });
+        let web3;
+        let contractInstance;
 
-        // Connect MonkeyWallet Animation
-        document.getElementById("connectBtn").addEventListener("click", () => {
-            gsap.to("#connectBtn", { duration: 0.5, scale: 0.9, yoyo: true, repeat: 1, ease: "power2.out" });
-            connectMonkeyWallet();
-        });
-
-        // Deposit Animation
-        document.getElementById("depositBtn").addEventListener("click", () => {
-            gsap.to("#depositBtn", { duration: 0.5, scale: 0.9, yoyo: true, repeat: 1, ease: "power2.out" });
-            deposit();
-        });
-
-        // Withdraw Animation
-        document.getElementById("withdrawBtn").addEventListener("click", () => {
-            gsap.to("#withdrawBtn", { duration: 0.5, scale: 0.9, yoyo: true, repeat: 1, ease: "power2.out" });
-            withdraw();
-        });
-
-        // Claim Rewards Animation
-        document.getElementById("claimBtn").addEventListener("click", () => {
-            gsap.to("#claimBtn", { duration: 0.5, scale: 0.9, yoyo: true, repeat: 1, ease: "power2.out" });
-            claimRewards();
-        });
-
-        async function connectMonkeyWallet() {
+        async function initWeb3() {
             if (window.ethereum) {
+                web3 = new Web3(window.ethereum);
                 try {
-                    const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-                    monkeyAddress = accounts[0];
-                    console.log("MonkeyWallet connected:", monkeyAddress);
-                    // Add logic to display user-specific information or interact with the jungle contract
+                    await window.ethereum.enable();
                 } catch (error) {
-                    console.error("Error connecting MonkeyWallet:", error);
+                    console.error("User denied account access");
                 }
+            } else if (window.web3) {
+                web3 = new Web3(web3.currentProvider);
             } else {
-                console.error("MonkeyWallet not found. Please install MonkeyWallet.");
+                console.error("No Ethereum provider detected. Install MetaMask.");
+            }
+
+            // Load contract
+            contractInstance = new web3.eth.Contract(contractABI, contractAddress);
+        }
+
+        async function lockTokens() {
+            const amount = document.getElementById("amount").value;
+
+            if (amount <= 0) {
+                updateStatus("Enter a valid amount");
+                return;
+            }
+
+            const accounts = await web3.eth.getAccounts();
+            const userAddress = accounts[0];
+
+            try {
+                const result = await contractInstance.methods.lockTokens(web3.utils.toWei(amount, 'ether')).send({ from: userAddress });
+                console.log(result);
+                updateStatus(`Tokens locked successfully. Transaction Hash: ${result.transactionHash}`);
+            } catch (error) {
+                console.error(error);
+                updateStatus("Error locking tokens. Check the console for details.");
             }
         }
 
-        function deposit() {
-            const ethAmount = document.getElementById("ethAmount").value;
-            // Add logic to interact with the jungle contract and handle the deposit
-            console.log(`Climbing and depositing ${ethAmount} ETH for ${monkeyAddress}...`);
+        async function unlockTokens() {
+            const accounts = await web3.eth.getAccounts();
+            const userAddress = accounts[0];
+
+            try {
+                const result = await contractInstance.methods.unlockTokens().send({ from: userAddress });
+                console.log(result);
+                updateStatus(`Tokens unlocked successfully. Transaction Hash: ${result.transactionHash}`);
+            } catch (error) {
+                console.error(error);
+                updateStatus("Error unlocking tokens. Check the console for details.");
+            }
         }
 
-        function withdraw() {
-            // Add logic to interact with the jungle contract and handle the descent and withdrawal
-            console.log(`Descending and withdrawing for ${monkeyAddress}...`);
+        function updateStatus(message) {
+            document.getElementById("status").innerHTML = message;
         }
 
-        function claimRewards() {
-            // Add logic to interact with the jungle contract and handle the rewards claiming
-            console.log(`Claiming banana rewards for ${monkeyAddress}...`);
-        }
+        // Initialize web3 and contract
+        initWeb3();
     </script>
-
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
 </body>
 </html>
