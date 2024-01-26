@@ -56,10 +56,11 @@ async function lockETH() {
 
             updateUI();
         } catch (error) {
-            console.error(error);
+            console.error('LockETH Error:', error);
         }
     }
 }
+
 
 async function claimYield() {
     try {
