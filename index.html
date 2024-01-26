@@ -3,77 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Diamond Miner</title>
-    <!-- Add your additional meta tags and styles here -->
+    <title>Diamond Miner DApp</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <div class="container">
+        <h1>Diamond Miner DApp</h1>
+        <p id="account">Account: </p>
+        <p>Total Value Locked: <span id="totalValue"></span> ETH</p>
+        <p>Yield Percentage: <span id="yieldPercentage"></span>%</p>
 
-    <header>
-        <h1>Diamond Miner</h1>
-    </header>
+        <button onclick="lockETH()">Lock ETH</button>
+        <button onclick="claimYield()">Claim Yield</button>
+    </div>
 
-    <main>
-        <section>
-            <h2>Wallet Connection</h2>
-            <p id="walletStatus">Not Connected</p>
-            <button id="connectBtn" onclick="toggleWalletConnection()">Connect MetaMask</button>
-            <button id="disconnectBtn" onclick="disconnectMetaMask()" style="display:none;">Disconnect MetaMask</button>
-        </section>
-
-        <!-- Add other sections as needed -->
-
-    </main>
-
-    <footer>
-        <p>Total Value Locked: 💎 XYZ Diamonds</p>
-    </footer>
-
-    <script>
-        let userAddress;
-
-        async function connectMetaMask() {
-            if (window.ethereum) {
-                try {
-                    const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-                    userAddress = accounts[0];
-                    updateWalletStatus();
-                } catch (error) {
-                    console.error("Error connecting MetaMask:", error);
-                }
-            } else {
-                console.error("MetaMask not found. Please install MetaMask.");
-            }
-        }
-
-        function disconnectMetaMask() {
-            userAddress = undefined;
-            updateWalletStatus();
-        }
-
-        function toggleWalletConnection() {
-            if (userAddress) {
-                disconnectMetaMask();
-            } else {
-                connectMetaMask();
-            }
-        }
-
-        function updateWalletStatus() {
-            const walletStatusElement = document.getElementById("walletStatus");
-            const connectBtn = document.getElementById("connectBtn");
-            const disconnectBtn = document.getElementById("disconnectBtn");
-
-            if (userAddress) {
-                walletStatusElement.innerText = `Connected: ${userAddress}`;
-                connectBtn.style.display = "none";
-                disconnectBtn.style.display = "inline";
-            } else {
-                walletStatusElement.innerText = "Not Connected";
-                connectBtn.style.display = "inline";
-                disconnectBtn.style.display = "none";
-            }
-        }
-    </script>
-
+    <script src="https://cdn.jsdelivr.net/npm/web3@1.3.6/dist/web3.min.js"></script>
+    <script src="app.js"></script>
 </body>
 </html>
