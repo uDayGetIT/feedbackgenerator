@@ -297,10 +297,15 @@ async function connectWallet() {
 }
 
 function initializeContract() {
-  const web3 = new Web3(window.ethereum);
-  contract = new web3.eth.Contract(contractABI, contractAddress);
-  console.log(contract);
+  if (window.ethereum) {
+    const web3 = new Web3(window.ethereum);
+    contract = new web3.eth.Contract(contractABI, contractAddress);
+    console.log(contract);
+  } else {
+    console.error('MetaMask is not installed');
+  }
 }
+
 
 async function updateUI() {
   const totalValueLocked = await contract.methods.totalValueLocked().call();
