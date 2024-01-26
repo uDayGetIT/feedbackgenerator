@@ -316,18 +316,18 @@ async function updateUI() {
 }
 
 async function lockETH() {
-  const amountInput = prompt('Enter the amount of ETH to lock:');
-  const amount = web3.utils.toWei(amountInput, 'ether');
-  
+  const amount = prompt('Enter the amount of ETH to lock:');
   if (amount) {
     try {
-      await contract.methods.lockETH(amount).send({ from: window.ethereum.selectedAddress });
+      const amountInWei = web3.utils.toWei(amount, 'ether');
+      await contract.methods.lockETH(amountInWei).send({ from: window.ethereum.selectedAddress });
       updateUI();
     } catch (error) {
       console.error(error);
     }
   }
 }
+
 
 async function claimYield() {
   try {
