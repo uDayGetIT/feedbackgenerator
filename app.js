@@ -275,59 +275,60 @@ const contractABI = [
 let contract;
 
 document.addEventListener('DOMContentLoaded', async () => {
-    await connectWallet();
-    initializeContract();
-    updateUI();
+  await connectWallet();
+  initializeContract();
+  updateUI();
 });
 
 async function connectWallet() {
-    if (window.ethereum) {
-        try {
-            await window.ethereum.request({ method: 'eth_requestAccounts' });
-            const accounts = await window.ethereum.request({ method: 'eth_accounts' });
-            const account = accounts[0];
+  if (window.ethereum) {
+    try {
+      await window.ethereum.request({ method: 'eth_requestAccounts' });
+      const accounts = await window.ethereum.request({ method: 'eth_accounts' });
+      const account = accounts[0];
 
-            document.getElementById('account').innerText = `Account: ${account}`;
-        } catch (error) {
-            console.error(error);
-        }
-    } else {
-        console.error('MetaMask is not installed');
+      document.getElementById('account').innerText = `Account: ${account}`;
+    } catch (error) {
+      console.error(error);
     }
+  } else {
+    console.error('MetaMask is not installed');
+  }
 }
 
 function initializeContract() {
-    const web3 = new Web3(window.ethereum);
-    contract = new web3.eth.Contract(contractABI, contractAddress);
-    console.log(contract);
-
+  const web3 = new Web3(window.ethereum);
+  contract = new web3.eth.Contract(contractABI, contractAddress);
+  console.log(contract);
 }
 
 async function updateUI() {
-    const totalValueLocked = await contract.methods.totalValueLocked().call();
-    const yieldPercentage = await contract.methods.yieldPercentage().call();
+  const totalValueLocked = await contract.methods.totalValueLocked().call();
+  const yieldPercentage = await contract.methods.yieldPercentage().call();
 
-    document.getElementById('totalValue').innerText = totalValueLocked;
-    document.getElementById('yieldPercentage').innerText = yieldPercentage;
+  document.getElementById('totalValue').innerText = totalValueLocked;
+  document.getElementById('yieldPercentage').innerText = yieldPercentage;
 }
 
 async function lockETH() {
-    const amount = prompt('Enter the amount of ETH to lock:');
-    if (amount) {
-        try {
-            await contract.methods.lockETH(amount).send({ from: window.ethereum.selectedAddress });
-            updateUI();
-        } catch (error) {
-            console.error(error);
-        }
+  const amountInput = prompt('Enter the amount of ETH to lock:');
+  const amount = web3.utils.toWei(amountInput, 'ether');
+  
+  if (amount) {
+    try {
+      await contract.methods.lockETH(amount).send({ from: window.ethereum.selectedAddress });
+      updateUI();
+    } catch (error) {
+      console.error(error);
     }
+  }
 }
 
 async function claimYield() {
-    try {
-        await contract.methods.claimYield().send({ from: window.ethereum.selectedAddress });
-        updateUI();
-    } catch (error) {
-        console.error(error);
-    }
+  try {
+    await contract.methods.claimYield().send({ from: window.ethereum.selectedAddress });
+    updateUI();
+  } catch (error) {
+    console.error(error);
+  }
 }
