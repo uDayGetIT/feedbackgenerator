@@ -1,23 +1,156 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Diamond Miner DApp</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ticket Creation Helper</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f4;
+    }
+    .container {
+      max-width: 800px;
+      margin: 40px auto;
+      background-color: white;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      padding: 40px;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    .questions-section {
+      margin-bottom: 40px;
+    }
+    .question {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .question label {
+      font-weight: bold;
+    }
+    .answers button {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      margin-left: 10px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    .answers button:hover {
+      background-color: #0056b3;
+    }
+    #boilerplate {
+      background-color: #f4f4f4;
+      padding: 20px;
+      border-radius: 4px;
+      white-space: pre-wrap;
+      margin-bottom: 20px;
+    }
+    #copy-btn {
+      display: block;
+      margin: 0 auto;
+      background-color: #28a745;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    #copy-btn:hover {
+      background-color: #218838;
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Diamond Miner DApp</h1>
-        <p id="account">Account: </p>
-        <p>Total Value Locked: <span id="totalValue"></span> ETH</p>
-        <p>Yield Percentage: <span id="yieldPercentage"></span>%</p>
-
-        <button onclick="lockETH()">Lock ETH</button>
-        <button onclick="claimYield()">Claim Yield</button>
+  <div class="container">
+    <h1>Ticket Creation Helper</h1>
+    <div class="questions-section">
+      <h2>Troubleshooting Steps</h2>
+      <div class="question">
+        <label for="question1">Did user restart their mobile phone?</label>
+        <div class="answers">
+          <button data-answer="yes">Yes</button>
+          <button data-answer="no">No</button>
+          <button data-answer="na">N/A</button>
+        </div>
+      </div>
+      <div class="question">
+        <label for="question2">Did user reconnect to VPN?</label>
+        <div class="answers">
+          <button data-answer="yes">Yes</button>
+          <button data-answer="no">No</button>
+          <button data-answer="na">N/A</button>
+        </div>
+      </div>
+      <div class="question">
+        <label for="question3">Did user check the network connection?</label>
+        <div class="answers">
+          <button data-answer="yes">Yes</button>
+          <button data-answer="no">No</button>
+          <button data-answer="na">N/A</button>
+        </div>
+      </div>
+      <div class="question">
+        <label for="question4">Did user clear the app cache?</label>
+        <div class="answers">
+          <button data-answer="yes">Yes</button>
+          <button data-answer="no">No</button>
+          <button data-answer="na">N/A</button>
+        </div>
+      </div>
     </div>
+    <div class="boilerplate-section">
+      <h2>Boilerplate</h2>
+      <pre id="boilerplate"></pre>
+      <button id="copy-btn">Copy to Clipboard</button>
+    </div>
+  </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/web3@1.3.6/dist/web3.min.js"></script>
-    <script src="app.js"></script>
+  <script>
+    const questions = [
+      {
+        text: "Did user restart their mobile phone?",
+        boilerplate: "- User restarted their mobile phone: [yes/no/n/a]"
+      },
+      {
+        text: "Did user reconnect to VPN?",
+        boilerplate: "- User reconnected to VPN: [yes/no/n/a]"
+      },
+      {
+        text: "Did user check the network connection?",
+        boilerplate: "- User checked the network connection: [yes/no/n/a]"
+      },
+      {
+        text: "Did user clear the app cache?",
+        boilerplate: "- User cleared the app cache: [yes/no/n/a]"
+      }
+    ];
+
+    const questionButtons = document.querySelectorAll('.answers button');
+    const boilerplateElement = document.getElementById('boilerplate');
+    const copyButton = document.getElementById('copy-btn');
+
+    let boilerplateText = '';
+
+    questionButtons.forEach((button, index) => {
+      button.addEventListener('click', () => {
+        const answer = button.dataset.answer;
+        boilerplateText += `\n${questions[index].boilerplate.replace('[yes/no/n/a]', answer)}`;
+        boilerplateElement.textContent = boilerplateText;
+      });
+    });
+
+    copyButton.addEventListener('click', () => {
+      navigator.clipboard.writeText(boilerplateText.trim());
+      alert('Boilerplate copied to clipboard!');
+    });
+  </script>
 </body>
 </html>
