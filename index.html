@@ -50,7 +50,7 @@
     .answers button.active {
       background-color: #0056b3;
     }
-    #boilerplate {
+    #template {
       background-color: #f4f4f4;
       padding: 20px;
       border-radius: 4px;
@@ -110,9 +110,9 @@
         </div>
       </div>
     </div>
-    <div class="boilerplate-section">
-      <h2>Boilerplate</h2>
-      <pre id="boilerplate"></pre>
+    <div class="template-section">
+      <h2>Template</h2>
+      <pre id="template"></pre>
       <button id="copy-btn">Copy to Clipboard</button>
     </div>
   </div>
@@ -121,28 +121,28 @@
     const questions = [
       {
         text: "Did user restart their mobile phone?",
-        boilerplate: "- User restarted their mobile phone: [yes/no/n/a]"
+        template: "- User restarted their mobile phone: [yes/no/n/a]"
       },
       {
         text: "Did user reconnect to VPN?",
-        boilerplate: "- User reconnected to VPN: [yes/no/n/a]"
+        template: "- User reconnected to VPN: [yes/no/n/a]"
       },
       {
         text: "Did user check the network connection?",
-        boilerplate: "- User checked the network connection: [yes/no/n/a]"
+        template: "- User checked the network connection: [yes/no/n/a]"
       },
       {
         text: "Did user clear the app cache?",
-        boilerplate: "- User cleared the app cache: [yes/no/n/a]"
+        template: "- User cleared the app cache: [yes/no/n/a]"
       }
     ];
 
     let currentQuestionIndex = 0;
     const questionElements = document.querySelectorAll('.question');
-    const boilerplateElement = document.getElementById('boilerplate');
+    const templateElement = document.getElementById('template');
     const copyButton = document.getElementById('copy-btn');
 
-    let boilerplateText = '';
+    let templateText = '';
 
     function showNextQuestion() {
       questionElements[currentQuestionIndex].style.display = 'none';
@@ -150,16 +150,16 @@
       if (currentQuestionIndex < questionElements.length) {
         questionElements[currentQuestionIndex].style.display = 'flex';
       } else {
-        updateBoilerplate();
-        boilerplateElement.style.display = 'block';
+        updateTemplate();
+        templateElement.style.display = 'block';
         copyButton.style.display = 'block';
       }
     }
 
-    function updateBoilerplate() {
-      boilerplateText = questions.map((question, index) => {
+    function updateTemplate() {
+      templateText = questions.map((question, index) => {
         const answer = questionElements[index].querySelector('.answers button.active')?.dataset.answer || 'n/a';
-        return `${question.boilerplate.replace('[yes/no/n/a]', answer)}`;
+        return `${question.template.replace('[yes/no/n/a]', answer)}`;
       }).join('\n');
     }
 
@@ -176,8 +176,8 @@
     });
 
     copyButton.addEventListener('click', () => {
-      navigator.clipboard.writeText(boilerplateText.trim());
-      alert('Boilerplate copied to clipboard!');
+      navigator.clipboard.writeText(templateText.trim());
+      alert('Template copied to clipboard!');
     });
 
     // Show the first question
