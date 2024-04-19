@@ -1,72 +1,19 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-	<title>Decision Tree</title>
-	<link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Decision Tree</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-	<header>
-		<nav>
-			<ul>
-				<li><a href="#mobile">Mobile</a></li>
-				<li><a href="#printer">Printer</a></li>
-				<!-- Add more categories here -->
-			</ul>
-		</nav>
-	</header>
-	<main>
-		<h1>Decision Tree</h1>
-		<select id="category">
-			<option value="">Select Category</option>
-			<option value="Mobile">Mobile</option>
-			<option value="Printer">Printer</option>
-			<!-- Add more categories here -->
-		</select>
-		<div id="subcategories"></div>
-		<div id="questions"></div>
-		<div id="resolution"></div>
-		<!-- Decision Tree -->
-		<div id="tree">
-			<ul>
-				<li>
-					<span>Mobile</span>
-					<ul>
-						<li>
-							<span>Firm Phone</span>
-							<ul>
-								<li>
-									<span>Issue with Mobilewood app</span>
-									<ul>
-										<li><span>Restart app and phone</span></li>
-										<li><span>Check Mobilewood server status</span></li>
-									</ul>
-								</li>
-								<li>
-									<span>Issue with Insynced sync</span>
-									<ul>
-										<li><span>Check internet connection</span></li>
-										<li><span>Verify Insynced sync settings</span></li>
-									</ul>
-								</li>
-							</ul>
-						</li>
-						<li>
-							<span>Personal Phone</span>
-							<ul>
-								<!-- Add more subcategories and questions here -->
-							</ul>
-						</li>
-					</ul>
-				</li>
-				<li>
-					<span>Printer</span>
-					<ul>
-						<!-- Add more subcategories and questions here -->
-					</ul>
-				</li>
-				<!-- Add more categories here -->
-			</ul>
-		</div>
-		<script src="script.js"></script>
-	</main>
+    <div class="container">
+        <h1>Decision Tree</h1>
+        <div id="questionContainer"></div>
+        <div id="optionsContainer"></div>
+        <div id="resolutionContainer"></div>
+        <div id="navigationContainer"></div>
+    </div>
+    <script src="script.js"></script>
 </body>
 </html>
