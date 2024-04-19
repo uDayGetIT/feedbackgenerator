@@ -1,64 +1,105 @@
-const categories = {
-	Mobile: {
-		subcategories: ['Firm Phone', 'Personal Phone'],
-		questions: [...],
-		resolutions: [...]
-	},
-	Printer: {
-		subcategories: [...],
-		questions: [...],
-		resolutions: [...]
-	},
-	// Add more categories here
+// Decision Tree data
+const decisionTree = {
+    "Mobile Category": {
+        "Issue with firm phone": {
+            "License type": {
+                "Mobilewood": {
+                    "Can access Mobilewood app?": {
+                        "Yes": {
+                            "Receiving error messages?": {
+                                "Yes": "Resolution: Check Mobilewood error code list (KB234567) and follow troubleshooting steps. If issue persists, collect device logs and submit ticket to Mobilewood support.",
+                                "No": "Contact IT for further assistance"
+                            }
+                        },
+                        "No": {
+                            "Tried restarting app/phone?": {
+                                "Yes": "Resolution: Check Mobilewood server status and verify login credentials (KB123456)",
+                                "No": "Resolution: Restart app/phone, then try accessing Mobilewood app again. If issue persists, check server status and verify credentials (KB123456)"
+                            }
+                        }
+                    }
+                },
+                "Insynced": {
+                    "Can sync with Insynced server?": {
+                        "Yes": "Resolution: Verify Insynced sync settings and conflict resolution policies. If issue persists, collect device logs and submit ticket to Insynced support (KB456789)",
+                        "No": {
+                            "Checked internet/credentials?": {
+                                "Yes": "Resolution: Verify Insynced server status and check for software updates (KB345678). If issue persists, collect logs and submit ticket to Insynced support.",
+                                "No": "Resolution: Check internet connection and login credentials, then try syncing data again. If issue persists, verify server status and check for updates (KB345678)"
+                            }
+                        }
+                    }
+                },
+                "Other (please specify)": "Contact IT with license details for further assistance"
+            }
+        },
+        "Issue with personal phone": "Personal phone issues are not supported by the IT department"
+    }
 };
 
-const select = document.getElementById('category');
-const subcategoriesDiv = document.getElementById('subcategories');
-const questionsDiv = document.getElementById('questions');
-const resolutionDiv = document.getElementById('resolution');
+let currentNode = decisionTree;
+const questionContainer = document.getElementById("questionContainer");
+const optionsContainer = document.getElementById("optionsContainer");
+const resolutionContainer = document.getElementById("resolutionContainer");
+const navigationContainer = document.getElementById("navigationContainer");
 
-select.addEventListener('change', (e) => {
-	const category = categories[e.target.value];
-	if (category) {
-		const subcategoriesHTML = category.subcategories.map((subcat) => {
-			return `<option value="${subcat}">${subcat}</option>`;
-		}).join('');
-		subcategoriesDiv.innerHTML = `<select id="subcategory">${subcategoriesHTML}</select>`;
-	}
-});
-
-// Add mobile-specific logic here
-if (window.matchMedia("(max-width: 768px)").matches) {
-	// Hide navigation menu and use a dropdown instead
-	const nav = document.querySelector('nav');
-	const dropdown = document.createElement('select');
-	nav.replaceWith(dropdown);
+function displayQuestion(question) {
+    questionContainer.textContent = question;
 }
 
-// Add Decision Tree logic here
-const tree = document.getElementById('tree');
-const categoriesList = tree.querySelector('ul');
-categoriesList.addEventListener('click', (e) => {
-	if (e.target.tagName === 'LI') {
-		const category = e.target.querySelector('span').textContent;
-		const subcategories = categories[category].subcategories;
-		const subcategoriesHTML = subcategories.map((subcat) => {
-			return `<li><span>${subcat}</span><ul>${getQuestionsHTML(category, subcat)}</ul></li>`;
-		}).join('');
-		e.target.innerHTML = `<span>${category}</span><ul>${subcategoriesHTML}</ul>`;
-	}
-});
-
-function getQuestionsHTML(category, subcategory) {
-	const questions = categories[category].questions[subcategory];
-	return questions.map((question) => {
-		return `<li><span>${question}</span><ul>${getResolutionsHTML(category, subcategory, question)}</ul></li>`;
-	}).join('');
+function displayOptions(options) {
+    optionsContainer.innerHTML = "";
+    for (const option in options) {
+        const button = document.createElement("button");
+        button.textContent = option;
+        button.addEventListener("click", () => handleOptionClick(option, options[option]));
+        optionsContainer.appendChild(button);
+    }
 }
 
-function getResolutionsHTML(category, subcategory, question) {
-	const resolutions = categories[category].resolutions[subcategory][question];
-	return resolutions.map((resolution) => {
-		return `<li><span>${resolution}</span></li>`;
-	}).join('');
+function displayResolution(resolution) {
+    resolutionContainer.textContent = resolution;
 }
+
+function displayNavigation() {
+    navigationContainer.innerHTML = "";
+    const backButton = document.createElement("button");
+    backButton.textContent = "Back";
+    backButton.addEventListener("click", handleBackClick);
+    navigationContainer.appendChild(backButton);
+
+    const restartButton = document.createElement("button");
+    restartButton.textContent = "Restart";
+    restartButton.addEventListener("click", handleRestartClick);
+    navigationContainer.appendChild(restartButton);
+}
+
+function handleOptionClick(option, nextNode) {
+    if (typeof nextNode === "string") {
+        displayResolution(nextNode);
+        displayNavigation();
+    } else {
+        currentNode = nextNode;
+        const question = Object.keys(nextNode)[0];
+        displayQuestion(question);
+        displayOptions(nextNode[question]);
+    }
+}
+
+function handleBackClick() {
+    // Implement back functionality here
+}
+
+function handleRestartClick() {
+    currentNode = decisionTree;
+    const question = Object.keys(currentNode)[0];
+    displayQuestion(question);
+    displayOptions(currentNode[question]);
+    resolutionContainer.textContent = "";
+    navigationContainer.innerHTML = "";
+}
+
+// Start the decision tree
+const initialQuestion = Object.keys(currentNode)[0];
+displayQuestion(initialQuestion);
+displayOptions(currentNode[initialQuestion]);
