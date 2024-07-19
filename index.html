@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IT Support Decision Tree</title>
+    <title>Morgan Stanley IT Support Decision Tree</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -21,19 +21,19 @@
             padding: 20px;
         }
         h1 {
-            color: #2c3e50;
-            border-bottom: 2px solid #3498db;
+            color: #0067b1;
+            border-bottom: 2px solid #0067b1;
             padding-bottom: 10px;
         }
-        .question, .solution {
-            background-color: #ecf0f1;
-            border: 1px solid #bdc3c7;
+        .question {
+            background-color: #e6f2f8;
+            border: 1px solid #0067b1;
             border-radius: 5px;
             padding: 15px;
             margin-bottom: 15px;
         }
         button {
-            background-color: #3498db;
+            background-color: #0067b1;
             border: none;
             color: white;
             padding: 10px 20px;
@@ -47,139 +47,37 @@
             transition: background-color 0.3s;
         }
         button:hover {
-            background-color: #2980b9;
+            background-color: #004d86;
         }
-        #back-button {
-            background-color: #e74c3c;
+        #company-phone {
+            background-color: #0067b1;
+            color: white;
         }
-        #back-button:hover {
-            background-color: #c0392b;
+        #personal-phone {
+            background-color: #7c8a97;
+            color: white;
         }
-        #copy-button {
-            background-color: #2ecc71;
+        a {
+            color: #0067b1;
+            text-decoration: none;
         }
-        #copy-button:hover {
-            background-color: #27ae60;
+        a:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
 <body>
     <div id="decision-tree">
-        <h1>IT Support Decision Tree</h1>
-        <div id="current-step"></div>
-        <button id="back-button" style="display: none;">Back</button>
-        <button id="copy-button">Copy Path</button>
+        <h1>Morgan Stanley IT Support</h1>
+        <div class="question">
+            <p>What type of device are you using?</p>
+            <button id="company-phone">Company Phone</button>
+            <button id="personal-phone">Personal Phone</button>
+            <p>or go to <a href="#">myphone/</a> support tab to check</p>
+        </div>
     </div>
     <script>
-        const decisionTree = {
-            start: {
-                question: "What type of issue are you experiencing?",
-                options: [
-                    { text: "Email Issues", next: "email_issues" },
-                    { text: "Device Compliance", next: "device_compliance" },
-                    { text: "Other", next: "other_issues" }
-                ]
-            },
-            email_issues: {
-                question: "What specific email problem are you facing?",
-                options: [
-                    { text: "Can't see new emails in Outlook", next: "outlook_new_emails" },
-                    { text: "Receiving notifications but emails not visible", next: "outlook_notifications" },
-                    { text: "Other email issue", next: "other_email_issue" }
-                ]
-            },
-            outlook_new_emails: {
-                solution: "1. Check your internet connection. 2. Restart Outlook. 3. Check if you're in Offline mode (File > Work Offline). 4. Run Outlook in Safe Mode to check if an add-in is causing the issue. If the problem persists, contact IT support."
-            },
-            outlook_notifications: {
-                solution: "1. Check Outlook settings: File > Options > Mail > Message arrival. 2. Verify Windows notification settings. 3. Clear Outlook cache: Close Outlook, run 'outlook.exe /cleanviews'. If issues continue, contact IT support."
-            },
-            other_email_issue: {
-                solution: "For other email issues, please try the following: 1. Restart Outlook. 2. Check your internet connection. 3. Verify your account settings. If the problem persists, please contact IT support with details of your specific issue."
-            },
-            device_compliance: {
-                question: "What compliance issue are you experiencing?",
-                options: [
-                    { text: "Device showing as non-compliant", next: "non_compliant_device" },
-                    { text: "Can't access company resources", next: "resource_access" },
-                    { text: "Other compliance issue", next: "other_compliance" }
-                ]
-            },
-            non_compliant_device: {
-                solution: "1. Open the Company Portal app. 2. Check for any compliance issues listed. 3. Follow the instructions to resolve each issue. 4. Restart your device. 5. If problems persist, contact IT support."
-            },
-            resource_access: {
-                solution: "1. Ensure you're connected to the internet. 2. Check your device compliance status in the Company Portal app. 3. Try accessing resources in a different browser or app. 4. Restart your device. If issues continue, contact IT support."
-            },
-            other_compliance: {
-                solution: "For other compliance issues: 1. Check the Company Portal app for any alerts. 2. Ensure all required apps are installed and up-to-date. 3. Restart your device. If problems persist, please contact IT support with details of your specific issue."
-            },
-            other_issues: {
-                solution: "For issues not related to email or device compliance, please contact IT support directly. Provide as much detail as possible about the problem you're experiencing to help us resolve it quickly."
-            }
-        };
-
-        let currentStep = 'start';
-        let decisionPath = [];
-
-        function renderStep(step) {
-            const stepData = decisionTree[step];
-            const stepElement = document.getElementById('current-step');
-            stepElement.innerHTML = '';
-
-            if (stepData.question) {
-                const questionElement = document.createElement('div');
-                questionElement.className = 'question';
-                questionElement.textContent = stepData.question;
-                stepElement.appendChild(questionElement);
-
-                stepData.options.forEach(option => {
-                    const button = document.createElement('button');
-                    button.textContent = option.text;
-                    button.onclick = () => {
-                        decisionPath.push(`${stepData.question} - ${option.text}`);
-                        renderStep(option.next);
-                    };
-                    stepElement.appendChild(button);
-                });
-            } else if (stepData.solution) {
-                const solutionElement = document.createElement('div');
-                solutionElement.className = 'solution';
-                solutionElement.textContent = stepData.solution;
-                stepElement.appendChild(solutionElement);
-
-                const resetButton = document.createElement('button');
-                resetButton.textContent = 'Start Over';
-                resetButton.onclick = () => {
-                    currentStep = 'start';
-                    decisionPath = [];
-                    renderStep(currentStep);
-                };
-                stepElement.appendChild(resetButton);
-            }
-
-            document.getElementById('back-button').style.display = decisionPath.length > 0 ? 'inline-block' : 'none';
-        }
-
-        document.getElementById('back-button').addEventListener('click', () => {
-            if (decisionPath.length > 0) {
-                decisionPath.pop();
-                currentStep = decisionPath.length > 0 ? Object.keys(decisionTree).find(key => decisionTree[key].question === decisionPath[decisionPath.length - 1].split(' - ')[0]) : 'start';
-                renderStep(currentStep);
-            }
-        });
-
-        document.getElementById('copy-button').addEventListener('click', () => {
-            const pathText = decisionPath.join('\n');
-            navigator.clipboard.writeText(pathText).then(() => {
-                alert('Decision path copied to clipboard!');
-            }).catch(err => {
-                console.error('Failed to copy text: ', err);
-            });
-        });
-
-        // Initialize the decision tree
-        renderStep(currentStep);
+        // Add your JavaScript here for handling button clicks and navigation
     </script>
 </body>
 </html>
