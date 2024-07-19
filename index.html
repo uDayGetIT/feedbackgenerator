@@ -3,17 +3,195 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Decision Tree</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Service Desk Decision Tree</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+        #decision-tree {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .question, .solution {
+            background-color: #f4f4f4;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+        button {
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        #back-button {
+            background-color: #f44336;
+        }
+        #copy-button {
+            background-color: #008CBA;
+        }
+    </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Decision Tree</h1>
-        <div id="questionContainer"></div>
-        <div id="optionsContainer"></div>
-        <div id="resolutionContainer"></div>
-        <div id="navigationContainer"></div>
+    <div id="decision-tree">
+        <h1>Service Desk Decision Tree</h1>
+        <div id="current-step"></div>
+        <button id="back-button" style="display: none;">Back</button>
+        <button id="copy-button">Copy Path</button>
     </div>
-    <script src="script.js"></script>
+    <script>
+        const decisionTree = {
+            start: {
+                question: "Is this a corporate phone or a personal device?",
+                options: [
+                    { text: "Corporate", next: "corporate" },
+                    { text: "Personal", next: "personal" }
+                ]
+            },
+            corporate: {
+                question: "What type of issue is the user experiencing?",
+                options: [
+                    { text: "Network", next: "network" },
+                    { text: "Software", next: "software" },
+                    { text: "Hardware", next: "hardware" }
+                ]
+            },
+            personal: {
+                question: "Is this device an iOS or an Android?",
+                options: [
+                    { text: "iOS", next: "ios" },
+                    { text: "Android", next: "android" }
+                ]
+            },
+            ios: {
+                solution: "For personal iOS devices, please refer to Apple support or contact your carrier for assistance."
+            },
+            android: {
+                solution: "For personal Android devices, please refer to the device manufacturer's support or contact your carrier for assistance."
+            },
+            network: {
+                question: "Is the user able to connect to any websites?",
+                options: [
+                    { text: "Yes", next: "network_partial" },
+                    { text: "No", next: "network_full" }
+                ]
+            },
+            network_partial: {
+                question: "Are they able to access internal resources?",
+                options: [
+                    { text: "Yes", next: "network_partial_internal" },
+                    { text: "No", next: "network_partial_external" }
+                ]
+            },
+            network_full: {
+                solution: "Check physical network connections and router. If issue persists, contact network team."
+            },
+            network_partial_internal: {
+                solution: "Issue might be related to specific websites. Check for any proxy settings or firewall rules."
+            },
+            network_partial_external: {
+                solution: "Possible VPN or internal network issue. Verify VPN connection and internal network status."
+            },
+            software: {
+                question: "Is it a specific application or system-wide issue?",
+                options: [
+                    { text: "Specific application", next: "software_specific" },
+                    { text: "System-wide", next: "software_system" }
+                ]
+            },
+            software_specific: {
+                solution: "Try restarting the application. If issue persists, check for updates or reinstall the application."
+            },
+            software_system: {
+                solution: "Perform a system restart. If issue continues, check for pending system updates or malware."
+            },
+            hardware: {
+                question: "What type of hardware is affected?",
+                options: [
+                    { text: "Computer/Laptop", next: "hardware_computer" },
+                    { text: "Peripheral (e.g., printer, scanner)", next: "hardware_peripheral" }
+                ]
+            },
+            hardware_computer: {
+                solution: "Check all physical connections. If issue persists, run hardware diagnostics or contact IT support for further assistance."
+            },
+            hardware_peripheral: {
+                solution: "Ensure device is properly connected and powered on. Check for driver updates or reinstall device drivers if necessary."
+            }
+        };
+
+        let currentStep = 'start';
+        let decisionPath = [];
+
+        function renderStep(step) {
+            const stepData = decisionTree[step];
+            const stepElement = document.getElementById('current-step');
+            stepElement.innerHTML = '';
+
+            if (stepData.question) {
+                const questionElement = document.createElement('div');
+                questionElement.className = 'question';
+                questionElement.textContent = stepData.question;
+                stepElement.appendChild(questionElement);
+
+                stepData.options.forEach(option => {
+                    const button = document.createElement('button');
+                    button.textContent = option.text;
+                    button.onclick = () => {
+                        decisionPath.push(`${stepData.question} - ${option.text}`);
+                        renderStep(option.next);
+                    };
+                    stepElement.appendChild(button);
+                });
+            } else if (stepData.solution) {
+                const solutionElement = document.createElement('div');
+                solutionElement.className = 'solution';
+                solutionElement.textContent = stepData.solution;
+                stepElement.appendChild(solutionElement);
+
+                const resetButton = document.createElement('button');
+                resetButton.textContent = 'Start Over';
+                resetButton.onclick = () => {
+                    currentStep = 'start';
+                    decisionPath = [];
+                    renderStep(currentStep);
+                };
+                stepElement.appendChild(resetButton);
+            }
+
+            document.getElementById('back-button').style.display = decisionPath.length > 0 ? 'inline-block' : 'none';
+        }
+
+        document.getElementById('back-button').addEventListener('click', () => {
+            if (decisionPath.length > 0) {
+                decisionPath.pop();
+                currentStep = decisionPath.length > 0 ? Object.keys(decisionTree).find(key => decisionTree[key].question === decisionPath[decisionPath.length - 1].split(' - ')[0]) : 'start';
+                renderStep(currentStep);
+            }
+        });
+
+        document.getElementById('copy-button').addEventListener('click', () => {
+            const pathText = decisionPath.join('\n');
+            navigator.clipboard.writeText(pathText).then(() => {
+                alert('Decision path copied to clipboard!');
+            }).catch(err => {
+                console.error('Failed to copy text: ', err);
+            });
+        });
+
+        // Initialize the decision tree
+        renderStep(currentStep);
+    </script>
 </body>
 </html>
