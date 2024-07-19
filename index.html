@@ -20,8 +20,10 @@
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
             padding: 20px;
         }
-        h1 {
+        h1, h2 {
             color: #0067b1;
+        }
+        h1 {
             border-bottom: 2px solid #0067b1;
             padding-bottom: 10px;
         }
@@ -62,6 +64,9 @@
         a:hover {
             text-decoration: underline;
         }
+        ul {
+            padding-left: 20px;
+        }
     </style>
 </head>
 <body>
@@ -73,6 +78,41 @@
             <button id="personal-phone">Personal Phone</button>
             <p>or go to <a href="http://myphone/">http://myphone/</a> support tab to check</p>
         </div>
+        
+        <h2>Device Type</h2>
+        <div class="question">
+            <p>What type of device is it?</p>
+            <button id="android">Android</button>
+            <button id="ios">iOS</button>
+        </div>
+        
+        <h2>Probing Questions for Android</h2>
+        <ul>
+            <li>What version of Android are you running?</li>
+            <li>When was the last time you updated your device?</li>
+            <li>Have you recently installed any new apps?</li>
+            <li>Is this issue happening with a specific app or across multiple apps?</li>
+            <li>Have you tried restarting your device?</li>
+            <li>Are you connected to Wi-Fi or using mobile data?</li>
+            <li>Is your device's storage nearly full?</li>
+            <li>Have you noticed any unusual battery drain?</li>
+            <li>Are you using any antivirus or security apps?</li>
+            <li>Have you made any recent changes to your device settings?</li>
+        </ul>
+        
+        <h2>Probing Questions for iOS</h2>
+        <ul>
+            <li>What version of iOS are you running?</li>
+            <li>When was the last time you updated your device?</li>
+            <li>Have you recently installed any new apps?</li>
+            <li>Is this issue happening with a specific app or across multiple apps?</li>
+            <li>Have you tried restarting your device?</li>
+            <li>Are you connected to Wi-Fi or using cellular data?</li>
+            <li>Is your device's storage nearly full?</li>
+            <li>Have you noticed any unusual battery drain?</li>
+            <li>Are you signed in to your iCloud account?</li>
+            <li>Have you made any recent changes to your device settings?</li>
+        </ul>
     </div>
     <script>
         // Add your JavaScript here for handling button clicks and navigation
