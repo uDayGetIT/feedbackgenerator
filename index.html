@@ -3,27 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Service Desk Decision Tree</title>
+    <title>IT Support Decision Tree</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             line-height: 1.6;
-            margin: 0;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
             padding: 20px;
+            background-color: #f4f4f4;
         }
         #decision-tree {
-            max-width: 600px;
-            margin: 0 auto;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            padding: 20px;
+        }
+        h1 {
+            color: #2c3e50;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
         }
         .question, .solution {
-            background-color: #f4f4f4;
-            border: 1px solid #ddd;
+            background-color: #ecf0f1;
+            border: 1px solid #bdc3c7;
             border-radius: 5px;
             padding: 15px;
             margin-bottom: 15px;
         }
         button {
-            background-color: #4CAF50;
+            background-color: #3498db;
             border: none;
             color: white;
             padding: 10px 20px;
@@ -34,18 +44,28 @@
             margin: 4px 2px;
             cursor: pointer;
             border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #2980b9;
         }
         #back-button {
-            background-color: #f44336;
+            background-color: #e74c3c;
+        }
+        #back-button:hover {
+            background-color: #c0392b;
         }
         #copy-button {
-            background-color: #008CBA;
+            background-color: #2ecc71;
+        }
+        #copy-button:hover {
+            background-color: #27ae60;
         }
     </style>
 </head>
 <body>
     <div id="decision-tree">
-        <h1>Service Desk Decision Tree</h1>
+        <h1>IT Support Decision Tree</h1>
         <div id="current-step"></div>
         <button id="back-button" style="display: none;">Back</button>
         <button id="copy-button">Copy Path</button>
@@ -53,81 +73,49 @@
     <script>
         const decisionTree = {
             start: {
-                question: "Is this a corporate phone or a personal device?",
+                question: "What type of issue are you experiencing?",
                 options: [
-                    { text: "Corporate", next: "corporate" },
-                    { text: "Personal", next: "personal" }
+                    { text: "Email Issues", next: "email_issues" },
+                    { text: "Device Compliance", next: "device_compliance" },
+                    { text: "Other", next: "other_issues" }
                 ]
             },
-            corporate: {
-                question: "What type of issue is the user experiencing?",
+            email_issues: {
+                question: "What specific email problem are you facing?",
                 options: [
-                    { text: "Network", next: "network" },
-                    { text: "Software", next: "software" },
-                    { text: "Hardware", next: "hardware" }
+                    { text: "Can't see new emails in Outlook", next: "outlook_new_emails" },
+                    { text: "Receiving notifications but emails not visible", next: "outlook_notifications" },
+                    { text: "Other email issue", next: "other_email_issue" }
                 ]
             },
-            personal: {
-                question: "Is this device an iOS or an Android?",
+            outlook_new_emails: {
+                solution: "1. Check your internet connection. 2. Restart Outlook. 3. Check if you're in Offline mode (File > Work Offline). 4. Run Outlook in Safe Mode to check if an add-in is causing the issue. If the problem persists, contact IT support."
+            },
+            outlook_notifications: {
+                solution: "1. Check Outlook settings: File > Options > Mail > Message arrival. 2. Verify Windows notification settings. 3. Clear Outlook cache: Close Outlook, run 'outlook.exe /cleanviews'. If issues continue, contact IT support."
+            },
+            other_email_issue: {
+                solution: "For other email issues, please try the following: 1. Restart Outlook. 2. Check your internet connection. 3. Verify your account settings. If the problem persists, please contact IT support with details of your specific issue."
+            },
+            device_compliance: {
+                question: "What compliance issue are you experiencing?",
                 options: [
-                    { text: "iOS", next: "ios" },
-                    { text: "Android", next: "android" }
+                    { text: "Device showing as non-compliant", next: "non_compliant_device" },
+                    { text: "Can't access company resources", next: "resource_access" },
+                    { text: "Other compliance issue", next: "other_compliance" }
                 ]
             },
-            ios: {
-                solution: "For personal iOS devices, please refer to Apple support or contact your carrier for assistance."
+            non_compliant_device: {
+                solution: "1. Open the Company Portal app. 2. Check for any compliance issues listed. 3. Follow the instructions to resolve each issue. 4. Restart your device. 5. If problems persist, contact IT support."
             },
-            android: {
-                solution: "For personal Android devices, please refer to the device manufacturer's support or contact your carrier for assistance."
+            resource_access: {
+                solution: "1. Ensure you're connected to the internet. 2. Check your device compliance status in the Company Portal app. 3. Try accessing resources in a different browser or app. 4. Restart your device. If issues continue, contact IT support."
             },
-            network: {
-                question: "Is the user able to connect to any websites?",
-                options: [
-                    { text: "Yes", next: "network_partial" },
-                    { text: "No", next: "network_full" }
-                ]
+            other_compliance: {
+                solution: "For other compliance issues: 1. Check the Company Portal app for any alerts. 2. Ensure all required apps are installed and up-to-date. 3. Restart your device. If problems persist, please contact IT support with details of your specific issue."
             },
-            network_partial: {
-                question: "Are they able to access internal resources?",
-                options: [
-                    { text: "Yes", next: "network_partial_internal" },
-                    { text: "No", next: "network_partial_external" }
-                ]
-            },
-            network_full: {
-                solution: "Check physical network connections and router. If issue persists, contact network team."
-            },
-            network_partial_internal: {
-                solution: "Issue might be related to specific websites. Check for any proxy settings or firewall rules."
-            },
-            network_partial_external: {
-                solution: "Possible VPN or internal network issue. Verify VPN connection and internal network status."
-            },
-            software: {
-                question: "Is it a specific application or system-wide issue?",
-                options: [
-                    { text: "Specific application", next: "software_specific" },
-                    { text: "System-wide", next: "software_system" }
-                ]
-            },
-            software_specific: {
-                solution: "Try restarting the application. If issue persists, check for updates or reinstall the application."
-            },
-            software_system: {
-                solution: "Perform a system restart. If issue continues, check for pending system updates or malware."
-            },
-            hardware: {
-                question: "What type of hardware is affected?",
-                options: [
-                    { text: "Computer/Laptop", next: "hardware_computer" },
-                    { text: "Peripheral (e.g., printer, scanner)", next: "hardware_peripheral" }
-                ]
-            },
-            hardware_computer: {
-                solution: "Check all physical connections. If issue persists, run hardware diagnostics or contact IT support for further assistance."
-            },
-            hardware_peripheral: {
-                solution: "Ensure device is properly connected and powered on. Check for driver updates or reinstall device drivers if necessary."
+            other_issues: {
+                solution: "For issues not related to email or device compliance, please contact IT support directly. Provide as much detail as possible about the problem you're experiencing to help us resolve it quickly."
             }
         };
 
