@@ -5,7 +5,59 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IT Support Decision Tree</title>
     <style>
-        /* ... (previous styles remain the same) ... */
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        #decision-tree {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            padding: 20px;
+        }
+        h1 {
+            color: #0067b1;
+            border-bottom: 2px solid #0067b1;
+            padding-bottom: 10px;
+        }
+        .question {
+            background-color: #e6f2f8;
+            border: 1px solid #0067b1;
+            border-radius: 5px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+        button {
+            background-color: #0067b1;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #004d86;
+        }
+        #company-phone {
+            background-color: #0067b1;
+        }
+        #personal-phone {
+            background-color: #7c8a97;
+        }
+        .hidden {
+            display: none;
+        }
         #copy-template {
             background-color: #2ecc71;
             display: none;
@@ -13,6 +65,13 @@
         }
         #copy-template:hover {
             background-color: #27ae60;
+        }
+        a {
+            color: #0067b1;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
