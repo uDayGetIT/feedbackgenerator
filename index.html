@@ -66,6 +66,13 @@
         #copy-template:hover {
             background-color: #27ae60;
         }
+        #back-button {
+            background-color: #e74c3c;
+            display: none;
+        }
+        #back-button:hover {
+            background-color: #c0392b;
+        }
         a {
             color: #0067b1;
             text-decoration: none;
@@ -107,6 +114,7 @@
         
         <div id="solution" class="question hidden"></div>
         
+        <button id="back-button" onclick="goBack()">Back</button>
         <button id="copy-template" onclick="copyTemplate()">Copy Template</button>
     </div>
 
@@ -117,13 +125,14 @@
         function showNextQuestion(nextQuestionId, choice) {
             document.querySelectorAll('.question').forEach(el => el.classList.add('hidden'));
             document.getElementById(nextQuestionId).classList.remove('hidden');
-            decisionPath.push(choice);
+            decisionPath.push({ id: nextQuestionId, choice: choice });
+            updateBackButton();
         }
 
         function showSolution(issueType, issue) {
             const solutionDiv = document.getElementById('solution');
             solutionDiv.classList.remove('hidden');
-            decisionPath.push(issue);
+            decisionPath.push({ id: 'solution', choice: issue });
             
             let solutionText = '';
             switch(issueType) {
@@ -148,8 +157,9 @@
             }
             
             finalSolution = solutionText;
-            solutionDiv.innerHTML = `<p>${solutionText}</p><button onclick="resetTree()">Start Over</button>`;
+            solutionDiv.innerHTML = `<p>${solutionText}</p>`;
             document.getElementById('copy-template').style.display = 'inline-block';
+            updateBackButton();
         }
 
         function resetTree() {
@@ -158,11 +168,12 @@
             document.getElementById('copy-template').style.display = 'none';
             decisionPath = [];
             finalSolution = '';
+            updateBackButton();
         }
 
         function copyTemplate() {
             const template = `Decision Path:
-${decisionPath.join(' > ')}
+${decisionPath.map(step => step.choice).join(' > ')}
 
 Solution:
 ${finalSolution}`;
@@ -173,6 +184,35 @@ ${finalSolution}`;
                 console.error('Could not copy text: ', err);
             });
         }
+
+        function goBack() {
+            if (decisionPath.length > 1) {
+                decisionPath.pop();
+                const previousStep = decisionPath[decisionPath.length - 1];
+                document.querySelectorAll('.question').forEach(el => el.classList.add('hidden'));
+                document.getElementById(previousStep.id).classList.remove('hidden');
+                if (previousStep.id === 'solution') {
+                    document.getElementById('copy-template').style.display = 'inline-block';
+                } else {
+                    document.getElementById('copy-template').style.display = 'none';
+                }
+            } else if (decisionPath.length === 1) {
+                resetTree();
+            }
+            updateBackButton();
+        }
+
+        function updateBackButton() {
+            const backButton = document.getElementById('back-button');
+            if (decisionPath.length > 0) {
+                backButton.style.display = 'inline-block';
+            } else {
+                backButton.style.display = 'none';
+            }
+        }
+
+        // Initialize the decision tree
+        resetTree();
     </script>
 </body>
 </html>
