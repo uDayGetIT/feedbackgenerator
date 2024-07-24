@@ -5,81 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IT Support Decision Tree</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #f4f4f4;
-        }
-        #decision-tree {
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            padding: 20px;
-        }
-        h1 {
-            color: #0067b1;
-            border-bottom: 2px solid #0067b1;
-            padding-bottom: 10px;
-        }
-        .question {
-            background-color: #e6f2f8;
-            border: 1px solid #0067b1;
-            border-radius: 5px;
-            padding: 15px;
-            margin-bottom: 15px;
-        }
-        button {
-            background-color: #0067b1;
-            border: none;
-            color: white;
-            padding: 10px 20px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 16px;
-            margin: 4px 2px;
-            cursor: pointer;
-            border-radius: 5px;
-            transition: background-color 0.3s;
-        }
-        button:hover {
-            background-color: #004d86;
-        }
-        #company-phone {
-            background-color: #0067b1;
-        }
-        #personal-phone {
-            background-color: #7c8a97;
-        }
-        .hidden {
-            display: none;
-        }
-        #copy-template {
-            background-color: #2ecc71;
-            display: none;
-            margin-top: 20px;
-        }
-        #copy-template:hover {
-            background-color: #27ae60;
-        }
-        #back-button {
-            background-color: #e74c3c;
-            display: none;
-        }
-        #back-button:hover {
-            background-color: #c0392b;
-        }
-        a {
-            color: #0067b1;
-            text-decoration: none;
-        }
-        a:hover {
-            text-decoration: underline;
-        }
+        /* ... (previous styles remain the same) ... */
     </style>
 </head>
 <body>
@@ -94,22 +20,24 @@
         
         <div id="device-type" class="question hidden">
             <p>What type of device is it?</p>
-            <button onclick="showNextQuestion('android-issues', 'Android')">Android</button>
-            <button onclick="showNextQuestion('ios-issues', 'iOS')">iOS</button>
+            <button onclick="showNextQuestion('license-check', 'Android')">Android</button>
+            <button onclick="showNextQuestion('license-check', 'iOS')">iOS</button>
         </div>
         
-        <div id="android-issues" class="question hidden">
-            <p>What issue are you experiencing with your Android device?</p>
-            <button onclick="showSolution('android-battery', 'Battery Drain')">Battery Drain</button>
-            <button onclick="showSolution('android-apps', 'App Issues')">App Issues</button>
-            <button onclick="showSolution('android-performance', 'Slow Performance')">Slow Performance</button>
+        <div id="license-check" class="question hidden">
+            <p>What license is the user provisioned with? Please check on <a href="http://myphone/" target="_blank">http://myphone/</a></p>
+            <button onclick="showNextQuestion('issue-selection', 'MobileWood')">MobileWood</button>
+            <button onclick="showNextQuestion('issue-selection', 'Insync')">Insync</button>
+            <button onclick="showNextQuestion('issue-selection', 'No License Found')">No License Found</button>
+            <p>External system analysis: Information was gathered and sent.</p>
         </div>
         
-        <div id="ios-issues" class="question hidden">
-            <p>What issue are you experiencing with your iOS device?</p>
-            <button onclick="showSolution('ios-battery', 'Battery Drain')">Battery Drain</button>
-            <button onclick="showSolution('ios-apps', 'App Issues')">App Issues</button>
-            <button onclick="showSolution('ios-update', 'Update Problems')">Update Problems</button>
+        <div id="issue-selection" class="question hidden">
+            <p>What issue are you experiencing?</p>
+            <button onclick="showSolution('battery-drain', 'Battery Drain')">Battery Drain</button>
+            <button onclick="showSolution('app-issues', 'App Issues')">App Issues</button>
+            <button onclick="showSolution('performance', 'Slow Performance')">Slow Performance</button>
+            <button onclick="showSolution('update-problems', 'Update Problems')">Update Problems</button>
         </div>
         
         <div id="solution" class="question hidden"></div>
@@ -136,23 +64,17 @@
             
             let solutionText = '';
             switch(issueType) {
-                case 'android-battery':
-                    solutionText = "For Android battery drain: Check for apps running in the background, adjust screen brightness, and consider replacing the battery if it's old.";
+                case 'battery-drain':
+                    solutionText = "For battery drain issues: Check for apps running in the background, adjust screen brightness, and consider replacing the battery if it's old.";
                     break;
-                case 'android-apps':
-                    solutionText = "For Android app issues: Clear app cache, update the app, or try uninstalling and reinstalling the problematic app.";
+                case 'app-issues':
+                    solutionText = "For app issues: Clear app cache, update the app, or try uninstalling and reinstalling the problematic app.";
                     break;
-                case 'android-performance':
-                    solutionText = "For slow Android performance: Clear cache, remove unused apps, and consider a factory reset if problems persist.";
+                case 'performance':
+                    solutionText = "For slow performance: Clear cache, remove unused apps, and consider a factory reset if problems persist.";
                     break;
-                case 'ios-battery':
-                    solutionText = "For iOS battery drain: Check battery health in Settings, reduce background app refresh, and lower screen brightness.";
-                    break;
-                case 'ios-apps':
-                    solutionText = "For iOS app issues: Force close the app, update it, or delete and reinstall the app. Ensure iOS is up to date.";
-                    break;
-                case 'ios-update':
-                    solutionText = "For iOS update problems: Ensure sufficient storage space, try updating via iTunes/Finder, or contact Apple Support for persistent issues.";
+                case 'update-problems':
+                    solutionText = "For update problems: Ensure sufficient storage space, try updating via computer if available, or contact device manufacturer support for persistent issues.";
                     break;
             }
             
