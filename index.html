@@ -101,7 +101,11 @@
             <p>What license is the user provisioned with? Please check on <a href="http://myphone/" target="_blank">http://myphone/</a></p>
             <button onclick="showNextQuestion('issue-selection', 'MobileWood')">MobileWood</button>
             <button onclick="showNextQuestion('issue-selection', 'Insync')">Insync</button>
-            <button onclick="showNextQuestion('issue-selection', 'No License Found')">No License Found</button>
+            <button onclick="showNoLicenseMessage()">No License Found</button>
+        </div>
+        
+        <div id="no-license-message" class="question hidden">
+            <p>As user does not have any license, advice user to go to <a href="http://getlicense/" target="_blank">http://getlicense/</a></p>
             <p>External system analysis: Information was gathered and sent.</p>
         </div>
         
@@ -127,6 +131,13 @@
             document.querySelectorAll('.question').forEach(el => el.classList.add('hidden'));
             document.getElementById(nextQuestionId).classList.remove('hidden');
             decisionPath.push({ id: nextQuestionId, choice: choice });
+            updateBackButton();
+        }
+
+        function showNoLicenseMessage() {
+            document.querySelectorAll('.question').forEach(el => el.classList.add('hidden'));
+            document.getElementById('no-license-message').classList.remove('hidden');
+            decisionPath.push({ id: 'no-license-message', choice: 'No License Found' });
             updateBackButton();
         }
 
