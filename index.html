@@ -60,7 +60,6 @@
         }
         #copy-template {
             background-color: #2ecc71;
-            display: none;
             margin-top: 20px;
         }
         #copy-template:hover {
@@ -106,7 +105,6 @@
         
         <div id="no-license-message" class="question hidden">
             <p>As user does not have any license, advice user to go to <a href="http://getlicense/" target="_blank">http://getlicense/</a></p>
-            <p>External system analysis: Information was gathered and sent.</p>
         </div>
         
         <div id="issue-selection" class="question hidden">
@@ -139,6 +137,7 @@
             document.getElementById('no-license-message').classList.remove('hidden');
             decisionPath.push({ id: 'no-license-message', choice: 'No License Found' });
             updateBackButton();
+            document.getElementById('copy-template').style.display = 'inline-block';
         }
 
         function showSolution(issueType, issue) {
@@ -197,7 +196,7 @@ ${finalSolution}`;
                 const previousStep = decisionPath[decisionPath.length - 1];
                 document.querySelectorAll('.question').forEach(el => el.classList.add('hidden'));
                 document.getElementById(previousStep.id).classList.remove('hidden');
-                if (previousStep.id === 'solution') {
+                if (previousStep.id === 'solution' || previousStep.id === 'no-license-message') {
                     document.getElementById('copy-template').style.display = 'inline-block';
                 } else {
                     document.getElementById('copy-template').style.display = 'none';
