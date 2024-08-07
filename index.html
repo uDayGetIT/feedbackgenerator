@@ -78,6 +78,24 @@
         a:hover {
             text-decoration: underline;
         }
+        #template-box {
+            width: 100%;
+            height: 150px;
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #0067b1;
+            border-radius: 5px;
+            resize: vertical;
+        }
+        @media (max-width: 600px) {
+            body {
+                padding: 10px;
+            }
+            button {
+                width: 100%;
+                margin: 5px 0;
+            }
+        }
     </style>
 </head>
 <body>
@@ -119,6 +137,8 @@
         
         <button id="back-button" onclick="goBack()">Back</button>
         <button id="copy-template" onclick="copyTemplate()">Copy Template</button>
+        
+        <textarea id="template-box" placeholder="Decision path and solution will appear here"></textarea>
     </div>
 
     <script>
@@ -130,6 +150,7 @@
             document.getElementById(nextQuestionId).classList.remove('hidden');
             decisionPath.push({ id: nextQuestionId, choice: choice });
             updateBackButton();
+            updateTemplateBox();
         }
 
         function showNoLicenseMessage() {
@@ -138,6 +159,7 @@
             decisionPath.push({ id: 'no-license-message', choice: 'No License Found' });
             updateBackButton();
             document.getElementById('copy-template').style.display = 'inline-block';
+            updateTemplateBox();
         }
 
         function showSolution(issueType, issue) {
@@ -165,6 +187,7 @@
             solutionDiv.innerHTML = `<p>${solutionText}</p>`;
             document.getElementById('copy-template').style.display = 'inline-block';
             updateBackButton();
+            updateTemplateBox();
         }
 
         function resetTree() {
@@ -174,20 +197,24 @@
             decisionPath = [];
             finalSolution = '';
             updateBackButton();
+            updateTemplateBox();
         }
 
         function copyTemplate() {
+            const templateBox = document.getElementById('template-box');
+            templateBox.select();
+            document.execCommand('copy');
+            alert('Template copied to clipboard!');
+        }
+
+        function updateTemplateBox() {
+            const templateBox = document.getElementById('template-box');
             const template = `Decision Path:
 ${decisionPath.map(step => step.choice).join(' > ')}
 
 Solution:
 ${finalSolution}`;
-
-            navigator.clipboard.writeText(template).then(() => {
-                alert('Template copied to clipboard!');
-            }, (err) => {
-                console.error('Could not copy text: ', err);
-            });
+            templateBox.value = template;
         }
 
         function goBack() {
@@ -205,6 +232,7 @@ ${finalSolution}`;
                 resetTree();
             }
             updateBackButton();
+            updateTemplateBox();
         }
 
         function updateBackButton() {
